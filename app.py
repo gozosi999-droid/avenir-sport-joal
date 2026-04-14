@@ -1,15 +1,15 @@
 import streamlit as st
 import os
 
-# 1. CONFIGURATION
-st.set_page_config(page_title="Avenir Sport Joal | Officiel", layout="wide")
+# 1. CONFIGURATION DE LA PAGE
+st.set_page_config(page_title="Avenir Sport Joal | Boutique Officielle", layout="wide", page_icon="⚽")
 
-# --- STYLE CSS AVANCÉ (Motifs et Couleurs Premium) ---
+# --- DESIGN CSS ULTRA-PROFESSIONNEL (STYLE CITY SPORT / NIKE) ---
 st.markdown("""
     <style>
-    @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:wght@300;400;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@300;400;700&display=swap');
 
-    /* Fond avec voile sombre pour faire ressortir le design */
+    /* Fond d'écran avec Overlay Sombre */
     .stApp {
         background: linear-gradient(rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.85)), 
                     url("https://images.unsplash.com/photo-1551952237-954a0e68786c?q=80&w=2000");
@@ -17,158 +17,142 @@ st.markdown("""
         background-attachment: fixed;
     }
 
-    /* Titre Impact Sport */
+    /* Titre Géant Impact */
     .titre-sport {
         font-family: 'Bebas Neue', cursive;
-        font-size: 90px !important;
+        font-size: clamp(60px, 10vw, 120px) !important;
         color: #ffda00; 
         text-align: center;
         text-transform: uppercase;
         font-style: italic;
-        line-height: 0.9;
-        text-shadow: 5px 5px 0px #000000;
-        margin-bottom: 5px;
+        line-height: 0.8;
+        text-shadow: 6px 6px 0px #000000;
+        margin-bottom: 0px;
     }
 
-    /* Design des Sections "Tracées" */
-    .section-divider {
-        border-bottom: 4px solid #ffda00;
-        width: 100px;
-        margin: 10px auto 30px auto;
-    }
-
-    .rayon-title {
+    /* Rayons Tracés */
+    .rayon-banner {
+        background: linear-gradient(90deg, #ffda00 0%, #000000 100%);
+        color: black;
         font-family: 'Bebas Neue';
-        font-size: 45px;
-        color: white;
-        background: rgba(255, 218, 0, 0.1);
-        padding: 10px 20px;
-        border-left: 8px solid #ffda00;
-        margin-top: 30px;
+        font-size: 35px;
+        padding: 10px 30px;
+        border-radius: 0 50px 50px 0;
+        margin: 40px 0 20px 0;
+        box-shadow: 5px 5px 15px rgba(0,0,0,0.4);
     }
 
-    /* Cartes Produits Professionnelles */
+    /* Carte Produit Luxe */
     .product-card {
         background-color: white;
-        padding: 20px;
-        border-radius: 15px;
+        padding: 25px;
+        border-radius: 20px;
         text-align: center;
         color: #1a1a1a !important;
-        box-shadow: 0px 15px 30px rgba(0,0,0,0.5);
-        transition: transform 0.3s ease;
+        box-shadow: 0px 20px 40px rgba(0,0,0,0.6);
+        transition: 0.4s ease;
+        border: 1px solid #eee;
     }
     .product-card:hover {
-        transform: translateY(-10px); /* Animation au survol */
+        transform: scale(1.03);
+        border: 2px solid #ffda00;
     }
 
     .price-tag {
         background-color: #ffda00;
         color: black;
-        font-weight: bold;
-        font-size: 24px;
-        padding: 5px 20px;
-        border-radius: 50px;
+        font-weight: 900;
+        font-size: 26px;
+        padding: 8px 25px;
+        border-radius: 10px;
         display: inline-block;
         margin: 15px 0;
+        font-family: 'Bebas Neue';
     }
 
-    /* Pied de Page Noir Profond */
-    .footer-container {
+    /* Footer Noir XXL */
+    .footer-xxl {
         background-color: #000000;
         color: white;
-        padding: 60px 20px;
+        padding: 80px 40px;
         margin-top: 100px;
-        border-top: 6px solid #ffda00;
-        font-family: 'Roboto', sans-serif;
+        border-top: 8px solid #ffda00;
     }
     </style>
     """, unsafe_allow_html=True)
 
-# 2. HEADER
+# 2. DONNÉES DU MAGASIN (C'est ici que tu peux ajouter des centaines de lignes)
+MAILLOTS = [
+    {"nom": "Maillot Sénégal Home 2024", "prix": "15.000", "img": "https://via.placeholder.com/400x400.png?text=Senegal+Home"},
+    {"nom": "Maillot Real Madrid 2025", "prix": "17.500", "img": "https://via.placeholder.com/400x400.png?text=Real+Madrid"},
+    {"nom": "Maillot Barça Home", "prix": "17.500", "img": "https://via.placeholder.com/400x400.png?text=Barca"},
+    {"nom": "Maillot Sénégal Away", "prix": "15.000", "img": "https://via.placeholder.com/400x400.png?text=Senegal+Away"},
+    {"nom": "Maillot Manchester City", "prix": "17.000", "img": "https://via.placeholder.com/400x400.png?text=Man+City"},
+    {"nom": "Maillot PSG 2025", "prix": "17.000", "img": "https://via.placeholder.com/400x400.png?text=PSG"},
+]
+
+CHAUSSURES = [
+    {"nom": "Nike Mercurial Vapor", "prix": "35.000", "img": "https://via.placeholder.com/400x400.png?text=Nike+Vapor"},
+    {"nom": "Adidas Predator", "prix": "32.500", "img": "https://via.placeholder.com/400x400.png?text=Adidas+Predator"},
+    {"nom": "Puma Future7", "prix": "30.000", "img": "https://via.placeholder.com/400x400.png?text=Puma+Future"},
+    {"nom": "Nike Phantom GX", "prix": "38.000", "img": "https://via.placeholder.com/400x400.png?text=Nike+Phantom"},
+]
+
+HABITS = [
+    {"nom": "Survêtement Tech Fleece", "prix": "45.000", "img": "https://via.placeholder.com/400x400.png?text=Tech+Fleece"},
+    {"nom": "Ensemble Training Sénégal", "prix": "25.000", "img": "https://via.placeholder.com/400x400.png?text=Training+SN"},
+    {"nom": "Short Sport Nike", "prix": "8.500", "img": "https://via.placeholder.com/400x400.png?text=Short+Nike"},
+]
+
+# 3. EN-TÊTE DU SITE
 col_l, col_r = st.columns([1, 4])
 with col_l:
     if os.path.exists("logo.png"):
-        st.image("logo.png", width=180)
+        st.image("logo.png", width=200)
 with col_r:
     st.markdown('<p class="titre-sport">AVENIR SPORT</p>', unsafe_allow_html=True)
-    st.markdown("<p style='text-align:center; color:white; letter-spacing:8px; font-weight:bold;'>JOAL-FADIOUTH • SÉNÉGAL</p>", unsafe_allow_html=True)
-    st.markdown('<div class="section-divider"></div>', unsafe_allow_html=True)
+    st.markdown("<p style='text-align:center; color:white; letter-spacing:10px; font-weight:bold; opacity:0.8;'>L'ÉLITE DU SPORT À JOAL-FADIOUTH</p>", unsafe_allow_html=True)
 
-# 3. SYSTÈME DE NAVIGATION PAR ONGLETS
-tabs = st.tabs(["🏠 ACCUEIL", "👕 MAILLOTS & HABITS", "👟 CHAUSSURES", "📞 NOUS CONTACTER"])
+st.write("---")
 
-# --- ONGLET 1 : ACCUEIL ---
-with tabs[0]:
-    st.markdown("<h2 style='color:white; text-align:center;'>DÉCOUVREZ LA NOUVELLE COLLECTION</h2>", unsafe_allow_html=True)
-    st.image("https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=2000", use_container_width=True)
-    st.write("")
-    col_feat1, col_feat2 = st.columns(2)
-    with col_feat1:
-        st.info("🚛 **Livraison Rapide** sur Joal et Dakar.")
-    with col_feat2:
-        st.success("💎 **Qualité Premium** garantie (Thaïlande AAA).")
+# 4. NAVIGATION PAR ONGLETS (TABS)
+tab_home, tab_maillots, tab_shoes, tab_habits, tab_contact = st.tabs([
+    "🏠 ACCUEIL", "👕 MAILLOTS", "👟 CHAUSSURES", "🧥 HABITS", "📞 CONTACT"
+])
 
-# --- ONGLET 2 : MAILLOTS & HABITS ---
-with tabs[1]:
-    st.markdown('<div class="rayon-title">MAILLOTS NATIONAUX & CLUBS</div>', unsafe_allow_html=True)
-    m1, m2, m3 = st.columns(3)
-    with m1:
-        st.markdown('<div class="product-card">', unsafe_allow_html=True)
-        st.image("https://via.placeholder.com/400x400.png?text=Maillot+Senegal")
-        st.markdown("### MAILLOT SÉNÉGAL 2024")
-        st.markdown('<div class="price-tag">15.000 F</div>', unsafe_allow_html=True)
-        st.link_button("COMMANDER SUR WHATSAPP", "https://wa.me/221XXXXXXXXX")
-        st.markdown('</div>', unsafe_allow_html=True)
+# --- FONCTION POUR AFFICHER LES PRODUITS ---
+def afficher_catalogue(liste_produits):
+    cols = st.columns(3)
+    for i, item in enumerate(liste_produits):
+        with cols[i % 3]:
+            st.markdown(f"""
+                <div class="product-card">
+                    <img src="{item['img']}" style="width:100%; border-radius:10px;">
+                    <h3 style="margin-top:15px; text-transform:uppercase;">{item['nom']}</h3>
+                    <div class="price-tag">{item['prix']} FCFA</div>
+                </div>
+            """, unsafe_allow_html=True)
+            st.link_button(f"COMMANDER {item['nom']}", f"https://wa.me/221XXXXXXXXX?text=Bonjour%20Avenir%20Sport,%20je%20veux%20commander%20:{item['nom']}")
+            st.write("")
 
-    st.markdown('<div class="rayon-title">HABITS & SURVÊTEMENTS</div>', unsafe_allow_html=True)
-    # Espace pour tes ensembles, survêtements et t-shirts
+# --- CONTENU DES ONGLETS ---
+with tab_home:
+    st.markdown('<div class="rayon-banner">★ LES INCONTOURNABLES</div>', unsafe_allow_html=True)
+    st.image("https://images.unsplash.com/photo-1511886929837-399a8a11bdca?q=80&w=2000")
+    st.write("### Pourquoi choisir Avenir Sport Joal ?")
+    c1, c2, c3 = st.columns(3)
+    c1.metric("Clients Satisfaits", "500+", "+12%")
+    c2.metric("Articles en Stock", "1200", "Nouveautés")
+    c3.metric("Livraison", "Joal/Dakar", "24h")
 
-# --- ONGLET 3 : CHAUSSURES ---
-with tabs[2]:
-    st.markdown('<div class="rayon-title">CHAUSSURES & CRAMPONS</div>', unsafe_allow_html=True)
-    s1, s2, s3 = st.columns(3)
-    with s1:
-        st.markdown('<div class="product-card">', unsafe_allow_html=True)
-        st.image("https://via.placeholder.com/400x400.png?text=Nike+Vapor")
-        st.markdown("### NIKE VAPOR ELITE")
-        st.markdown('<div class="price-tag">35.000 F</div>', unsafe_allow_html=True)
-        st.link_button("COMMANDER SUR WHATSAPP", "https://wa.me/221XXXXXXXXX")
-        st.markdown('</div>', unsafe_allow_html=True)
+with tab_maillots:
+    st.markdown('<div class="rayon-banner">RAYON MAILLOTS OFFICIELS</div>', unsafe_allow_html=True)
+    afficher_catalogue(MAILLOTS)
 
-# --- ONGLET 4 : CONTACT ---
-with tabs[3]:
-    st.markdown('<div class="rayon-title">NOS COORDONNÉES</div>', unsafe_allow_html=True)
-    c_info, c_map = st.columns(2)
-    with c_info:
-        st.markdown("""
-        <div style="color:white; font-size:18px;">
-        <p><strong>📞 TÉLÉPHONE :</strong> +221 77 XXX XX XX</p>
-        <p><strong>📧 EMAIL :</strong> avenirsportjoal@gmail.com</p>
-        <p><strong>📍 ADRESSE :</strong> Joal-Fadiouth, Quartier Escale</p>
-        <p><strong>🕒 HORAIRES :</strong> 09:00 - 22:00 (7j/7)</p>
-        </div>
-        """, unsafe_allow_html=True)
-        st.link_button("DISCUTER SUR WHATSAPP MAINTENANT", "https://wa.me/221XXXXXXXXX")
+with tab_shoes:
+    st.markdown('<div class="rayon-banner">RAYON CHAUSSURES & CRAMPONS</div>', unsafe_allow_html=True)
+    afficher_catalogue(CHAUSSURES)
 
-# 4. FOOTER (PIED DE PAGE)
-st.markdown("""
-    <div class="footer-container">
-        <div style="display: flex; justify-content: space-around; flex-wrap: wrap;">
-            <div style="min-width: 200px; margin-bottom: 20px;">
-                <h3 style="color:#ffda00;">AVENIR SPORT</h3>
-                <p>La puissance du sport à Joal.</p>
-            </div>
-            <div style="min-width: 200px; margin-bottom: 20px;">
-                <h4 style="color:#ffda00;">RAYONS</h4>
-                <p>• Maillots<br>• Chaussures<br>• Accessoires</p>
-            </div>
-            <div style="min-width: 200px; margin-bottom: 20px;">
-                <h4 style="color:#ffda00;">SUIVEZ-NOUS</h4>
-                <p>Instagram : @avenirsport_joal<br>Facebook : Avenir Sport Joal</p>
-            </div>
-        </div>
-        <p style="text-align:center; font-size:12px; margin-top:50px; opacity:0.5;">
-        © 2026 AVENIR SPORT JOAL - Boutique de sport officielle à Joal-Fadiouth, Sénégal.
-        </p>
-    </div>
-    """, unsafe_allow_html=True)
+with tab_habits:
+    st.markdown('<div class="rayon-banner">RAYON VÊTEMENTS DE SPORT</div>', unsafe_allow_html=True)
+    afficher_catalogue(HABITS)
