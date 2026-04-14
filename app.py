@@ -183,6 +183,31 @@ with tab_contact:
 
 # 4. FOOTER XXL (TRÈS LONG)
 st.markdown("""
+# 4. FOOTER XXL (CORRIGÉ ET COMPLET)
+st.markdown("""
+    <div class="footer-xxl">
+        <div style="display: flex; justify-content: space-around; flex-wrap: wrap; gap: 40px;">
+            <div>
+                <h2 style="color:#ffda00; font-family:'Bebas Neue';">AVENIR SPORT JOAL</h2>
+                <p>La destination n°1 pour les passionnés de foot.<br>Qualité supérieure garantie.</p>
+            </div>
+            <div>
+                <h4 style="color:#ffda00;">NOS RAYONS</h4>
+                <p>• Maillots Clubs Nationaux</p><p>• Maillots Equipes Nationales</p><p>• Chaussures de Foot</p><p>• Survetements</p>
+            </div>
+            <div>
+                <h4 style="color:#ffda00;">ASSISTANCE</h4>
+                <p>• Guide des tailles</p><p>• Délais de livraison</p><p>• Nous localiser</p>
+            </div>
+            <div>
+                <h4 style="color:#ffda00;">RÉSEAUX</h4>
+                <p>📷 Instagram</p><p>📘 Facebook</p><p>🎬 TikTok</p>
+            </div>
+        </div>
+        <hr style="border-color: #333; margin: 60px 0;">
+        <p style="text-align: center; opacity: 0.4;">© 2026 AVENIR SPORT JOAL - Joal-Fadiouth, Sénégal. Site Web Officiel.</p>
+    </div>
+    """, unsafe_allow_html=True)
     <div class="footer-xxl">
         <div style="display: flex; justify-content: space-around; flex-wrap: wrap; gap: 40px;">
             <div>
