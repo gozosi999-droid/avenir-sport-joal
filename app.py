@@ -87,4 +87,94 @@ class AvenirDatabase:
                 {"id": 304, "name": "Bandeau Cheveux Sport", "price": 2500, "genre": "Femme", "stock": "En Stock", "img": "https://images.unsplash.com/photo-1519751138087-5bf79df62d5b?w=400", "desc": "Maintien élastique."},
                 {"id": 305, "name": "Sac à dos Junior", "price": 15000, "genre": "Enfants", "stock": "En Stock", "img": "https://images.unsplash.com/photo-1544816155-12df9643f363?w=400", "desc": "Multi-compartiments."},
                 {"id": 306, "name": "Tape Médical", "price": 1500, "genre": "Homme", "stock": "En Stock", "img": "https://images.unsplash.com/photo-1552664688-cf412ec27db2?w=400", "desc": "Support articulaire."},
-                {"id": 307, "name": "Brass
+                {"id": 307, "name": "Brassard Capitaine", "price": 2500, "genre": "Enfants", "stock": "En Stock", "img": "https://images.unsplash.com/photo-1519751138087-5bf79df62d5b?w=400", "desc": "Taille ajustable."},
+                {"id": 308, "name": "Genouillères Volley", "price": 8500, "genre": "Femme", "stock": "En Stock", "img": "https://images.unsplash.com/photo-1511886929837-399a8a11bdca?w=400", "desc": "Protection impact."}
+            ]
+        }
+        
+        # Ajout automatique des 12 autres catégories pour atteindre 15
+        extra_cats = ["BASKETBALL", "GYM & FITNESS", "SWIMWEAR", "BOXE", "RETRO CLASSIC", "NUTRITION", "RECOVERY", "COACHING", "LIFESTYLE", "YOGA", "OUTDOOR", "TENNIS"]
+        for cat in extra_cats:
+            self.categories[cat] = [
+                {"id": 999, "name": f"Produit {cat} Pro", "price": 10000, "genre": g, "stock": "En Stock", "img": "https://images.unsplash.com/photo-1518481612222-68bbe828ecd1?w=400", "desc": "Performance garantie."}
+                for g in ["Homme", "Femme", "Enfants", "Homme", "Femme", "Enfants", "Homme", "Femme"]
+            ]
+
+db = AvenirDatabase()
+
+# --- 4. SIDEBAR NAVIGATION ---
+with st.sidebar:
+    st.markdown(f"## ⚡ AVENIR CONTROL PANEL")
+    st.info(f"HUB : Dakar-JOAL\nStatut : Online 🟢")
+    st.divider()
+    view_mode = st.radio("SÉLECTIONNER INTERFACE", ["Catalogue Client", "Gestion Stock (ERP)"])
+    st.divider()
+    
+    # Filtres de genre uniquement pour le catalogue
+    if view_mode == "Catalogue Client":
+        st.write("🎯 FILTRER PAR CIBLE")
+        filter_genre = st.multiselect("Genres", ["Homme", "Femme", "Enfants"], default=["Homme", "Femme", "Enfants"])
+    
+    st.write("© 2026 - Avenir Sport v5.0")
+
+# --- 5. INTERFACE CLIENT ---
+if view_mode == "Catalogue Client":
+    st.markdown("""
+        <div class="hero-container">
+            <h1 class="glitch-title">AVENIR SPORT</h1>
+            <p style='color:white; letter-spacing:10px;'>ELITE PERFORMANCE SYSTEM</p>
+        </div>
+    """, unsafe_allow_html=True)
+
+    selected_cat = st.selectbox("CHOISIR UNE CATÉGORIE", list(db.categories.keys()))
+    
+    # Filtrage des produits selon le genre sélectionné en sidebar
+    products = [p for p in db.categories[selected_cat] if p['genre'] in filter_genre]
+    
+    st.markdown(f"<h2 style='color:#ffda00; font-family:Orbitron;'>// {selected_cat} ({len(products)})</h2>", unsafe_allow_html=True)
+    
+    if not products:
+        st.warning("Aucun produit ne correspond à ces filtres pour cette catégorie.")
+    else:
+        cols = st.columns(3)
+        for i, item in enumerate(products):
+            with cols[i % 3]:
+                st.markdown(f"""
+                    <div class="product-box">
+                        <img src="{item['img']}" class="product-image">
+                        <div class="product-info">
+                            <div style="display:flex; justify-content:space-between; align-items:center;">
+                                <span class="badge-premium">{item['genre']}</span>
+                                <small style="color:#666;">REF: AS-{item['id']}</small>
+                            </div>
+                            <h3 style="color:white; font-family:'Inter'; margin:15px 0 5px 0;">{item['name']}</h3>
+                            <p style="color:#999; font-size:13px; height:40px; overflow:hidden;">{item['desc']}</p>
+                            <div class="price-big">{item['price']:,} F</div>
+                            <p style="color:#2ecc71; font-size:12px; margin-top:5px;">● {item['stock']}</p>
+                        </div>
+                    </div>
+                """, unsafe_allow_html=True)
+                st.link_button(f"COMMANDER WHATSAPP", f"https://wa.me/221770953766?text=Bonjour,%20je%20souhaite%20commander%20l'article%20AS-{item['id']} ({item['name']})")
+                st.write("")
+
+else: # --- MODE ERP ---
+    st.title("🛡️ GESTION DU STOCK CENTRAL")
+    all_data = []
+    for cat, items in db.categories.items():
+        for i in items:
+            all_data.append({"Catégorie": cat, "Nom": i['name'], "Genre": i['genre'], "Prix": i['price'], "Stock": i['stock']})
+    
+    df = pd.DataFrame(all_data)
+    st.dataframe(df, use_container_width=True)
+    st.metric("NOMBRE D'ARTICLES RÉFÉRENCÉS", len(df), "+120")
+
+# --- 6. FOOTER ---
+st.markdown("""
+    <div class="footer-matrix">
+        <div style="display: flex; justify-content: space-around; flex-wrap: wrap; gap: 50px; text-align:left;">
+            <div><h4 style="color:#ffda00;">LOGISTIQUE</h4><p style="font-size:13px; color:#999;">HUB JOAL : 24/7<br>HUB DAKAR : Livraison 12H</p></div>
+            <div><h4 style="color:#ffda00;">RESEAUX</h4><p style="font-size:13px; color:#999;">Instagram @avenirsport<br>TikTok @avenirsport</p></div>
+            <div><h4 style="color:#ffda00;">SYSTEM</h4><p style="font-size:13px; color:#999;">Version 5.0 Stable<br>Joal-Fadiouth, SN</p></div>
+        </div>
+    </div>
+""", unsafe_allow_html=True)
