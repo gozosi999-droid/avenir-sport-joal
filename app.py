@@ -1,5 +1,24 @@
 import streamlit as st
+import streamlit as st
 
+# Configuration de la page
+st.set_page_config(page_title="Avenir Sport Joal", page_icon="⚽", layout="wide")
+
+# --- AFFICHAGE DU LOGO ET DU TITRE ---
+# On crée deux colonnes : une petite pour le logo, une grande pour le titre
+col_logo, col_titre = st.columns([1, 4])
+
+with col_logo:
+    # REMPLACE "logo.png" PAR LE NOM EXACT DE TON FICHIER SUR GITHUB
+    st.image("logo.png", width=150) 
+
+with col_titre:
+    st.markdown("<h1 style='margin-top: 20px;'>🦁 AVENIR SPORT JOAL</h1>", unsafe_allow_html=True)
+    st.write("Le meilleur de l'équipement sportif à Joal-Fadiouth")
+
+st.write("---")
+
+# ... (Le reste de ton code avec les produits et les boutons WhatsApp)
 # Configuration de la page
 st.set_page_config(page_title="Avenir Sport Joal", page_icon="⚽", layout="wide")
 
