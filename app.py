@@ -75,7 +75,7 @@ db = [
     
     # --- ADIDAS SECTION ---
    Product("NK-003", "ADIDAS", "lIGHT", "ULTRABOOST", "Unisex", ["M", "L", "XL", "XXL"], 15000, "https://i.ibb.co/Tqh9ZW1j/image.jpg"),
-    Product("AD-002", "ADIDAS", "JOGGING", "Tiro 23 Competition", "Homme", ["M", "L", "XL"], 38000, "https://images.unsplash.com/photo-1515444744559-7be63e1600de"),
+    Product("AD-002", "ADIDAS", "JOGGING", "Tiro 23 Competition", "Homme", ["M", "L", "XL"], 38000,"https://i.ibb.co/Pszx1bRF/image.jpg"),
     
     # --- PUMA & NEW BALANCE ---
     Product("PM-001", "PUMA", "MAILLOT FOOT", "Man City Authentic", "Homme", ["S", "M", "L"], 18000, "https://images.unsplash.com/photo-1522778119026-d647f0596c20"),
