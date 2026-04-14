@@ -70,19 +70,19 @@ class Product:
 db = [
     # --- NIKE SECTION ---
     Product("NK-001", "NIKE", "JOGGING", "Tech Fleece Reborn", "Homme", ["S", "M", "L", "XL"], 45000, "https://i.ibb.co/gLjFBt4G/image.jpg"),
-    Product("NK-002", "NIKE", "CRAMPONS", "Mercurial Superfly 9", "Unisex", ["40", "41", "42", "43", "44"], 135000, "https://i.ibb.co/RkYyxdkc/image.jpg", "ELITE"),
-    Product("NK-SN-24", "NIKE", "MAILLOT FOOT", "Sénégal Home 24/25", "Unisex", ["M", "L", "XL", "XXL"], 15000, "https://i.ibb.co/bMShDsqb/image.jpg"),
+    Product("NK-002", "NIKE", "CRAMPONS", "Mercurial Superfly 9", "Unisex", ["40", "41", "42", "43", "44"], 40000, "https://i.ibb.co/RkYyxdkc/image.jpg", "ELITE"),
+    Product("NK-SN-24", "NIKE", "MAILLOT FOOT", "Sénégal Home 24/25", "Unisex", ["M", "L", "XL", "XXL"], 14000, "https://i.ibb.co/bMShDsqb/image.jpg"),
     
     # --- ADIDAS SECTION ---
-   Product("NK-003", "ADIDAS", "lIGHT", "ULTRABOOST", "Unisex", ["M", "L", "XL", "XXL"], 15000, "https://i.ibb.co/Tqh9ZW1j/image.jpg"),
-    Product("AD-002", "ADIDAS", "JOGGING", "Tiro 23 Competition", "Homme", ["M", "L", "XL"], 38000,"https://i.ibb.co/Pszx1bRF/image.jpg"),
+   Product("NK-003", "ADIDAS", "lIGHT", "ULTRABOOST", "Unisex", ["M", "L", "XL", "XXL"], 25000, "https://i.ibb.co/Tqh9ZW1j/image.jpg"),
+    Product("AD-002", "ADIDAS", "JOGGING", "Tiro 23 Competition", "Homme", ["M", "L", "XL"], 30000,"https://i.ibb.co/Pszx1bRF/image.jpg"),
     
     # --- PUMA & NEW BALANCE ---
-    Product("PM-001", "PUMA", "MAILLOT FOOT", "Man City Authentic", "Homme", ["S", "M", "L"], 18000, "https://i.ibb.co/ymGgtnCs/image.jpg"),
-    Product("NB-001", "NEW BALANCE", "RUNNING", "Fresh Foam 1080", "Unisex", ["41", "42", "43", "44", "45"], 88000, "https://i.ibb.co/H3WtxHn/image.jpg"),
+    Product("PM-001", "PUMA", "MAILLOT FOOT", "Man City Authentic", "Homme", ["S", "M", "L"], 15000, "https://i.ibb.co/ymGgtnCs/image.jpg"),
+    Product("NB-001", "NEW BALANCE", "RUNNING", "Fresh Foam 1080", "Unisex", ["41", "42", "43", "44", "45"], 45000, "https://i.ibb.co/H3WtxHn/image.jpg"),
     
     # --- MATÉRIEL & ACCESSOIRES ---
-    Product("ACC-01", "NIKE", "ACCESSOIRES", "Protège-Tibias Carbon", "Unisex", ["S", "M", "L"], 12000, "https://i.ibb.co/nsjnLfxv/image.jpg"),
+    Product("ACC-01", "NIKE", "ACCESSOIRES", "Protège-Tibias Carbon", "Unisex", ["S", "M", "L"], 10000, "https://i.ibb.co/nsjnLfxv/image.jpg"),
     Product("ACC-02", "PUMA", "ACCESSOIRES", "Lot 10 Dossards Pro", "Unisex", ["Taille Unique"], 25000, "https://i.ibb.co/KpQ1Nmr5/image.jpg"),
     Product("ACC-03", "NIKE", "ACCESSOIRES", "Chaussettes Foot (Pack de 3)", "Unisex", ["38-42", "43-46"], 7500, "https://i.ibb.co/LDYs9CSt/image.jpg")
 ]
@@ -163,7 +163,7 @@ st.markdown("""
             </div>
             <div>
                 <h4 style="color:#ffda00;">LOGISTIQUE</h4>
-                <p style="font-size:13px;">HUB JOAL : 24/7<br>HUB DAKAR : Livraison 12H<br>HUB MBOUR : Livraison 24H</p>
+                <p style="font-size:13px;">HUB JOAL : 24/7<br>HUB DAKAR : Livraison 24H<br>HUB MBOUR : Livraison 24H</p>
             </div>
             <div>
                 <h4 style="color:#ffda00;">LEGAL</h4>
@@ -171,7 +171,7 @@ st.markdown("""
             </div>
             <div>
                 <h4 style="color:#ffda00;">RESEAUX SOCIAUX</h4>
-                <p style="font-size:13px;">Instagram @avenirsport_elite<br>TikTok @avenirsport_joal<br>Facebook Avenir Sport Sénégal</p>
+                <p style="font-size:13px;">Instagram @avenirsport<br>TikTok @avenirsport<br>Facebook Avenir Sport Sénégal</p>
             </div>
         </div>
         <div style="text-align:center; margin-top:80px; opacity:0.3; font-size:10px;">
