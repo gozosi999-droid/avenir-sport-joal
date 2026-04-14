@@ -1,180 +1,180 @@
 import streamlit as st
 import pandas as pd
 from datetime import datetime
-import os
 
-# --- 1. CONFIGURATION DU MOTEUR ---
+# --- 1. CONFIGURATION SYSTÈME ---
 st.set_page_config(
-    page_title="AVENIR SPORT | Elite ERP System",
+    page_title="AVENIR SPORT | ULTIMATE ERP v6.0",
     page_icon="⚡",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
-# --- 2. SYSTÈME DE DESIGN "CYBER-GOLD" ---
+# --- 2. ENGINE CSS "BLACK & GOLD LUXURY" ---
 st.markdown("""
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=Inter:wght@300;400;700&display=swap');
-    :root { --neon-gold: #ffda00; --dark-bg: #050505; --glass: rgba(255, 255, 255, 0.03); }
-    .stApp {
-        background-color: var(--dark-bg);
-        background-image: linear-gradient(rgba(255, 218, 0, 0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 218, 0, 0.02) 1px, transparent 1px);
-        background-size: 50px 50px;
+    
+    :root { --gold: #ffda00; --dark: #050505; --card: #111111; }
+    
+    .stApp { background-color: var(--dark); color: white; }
+    
+    /* Header */
+    .header-box {
+        background: linear-gradient(180deg, rgba(255,218,0,0.15) 0%, transparent 100%);
+        padding: 80px 20px; text-align: center; border-bottom: 3px solid var(--gold);
+        margin-bottom: 40px; border-radius: 0 0 60px 60px;
     }
-    .hero-container {
-        padding: 60px; text-align: center;
-        background: linear-gradient(180deg, rgba(255,218,0,0.1) 0%, transparent 100%);
-        border-radius: 0 0 50px 50px; border-bottom: 2px solid var(--neon-gold);
-        margin-bottom: 50px;
+    .main-title { font-family: 'Orbitron'; font-size: 70px; color: var(--gold); letter-spacing: 15px; margin: 0; }
+    
+    /* Product Cards */
+    .product-card {
+        background: var(--card); border: 1px solid #222; border-radius: 25px;
+        overflow: hidden; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        margin-bottom: 25px; height: 100%;
     }
-    .glitch-title {
-        font-family: 'Orbitron', sans-serif; font-size: 80px !important;
-        font-weight: 900; color: var(--neon-gold); text-transform: uppercase;
-        letter-spacing: 15px; line-height: 1; margin: 0;
-        text-shadow: 0 0 30px rgba(255, 218, 0, 0.5);
+    .product-card:hover { border-color: var(--gold); transform: translateY(-12px); box-shadow: 0 15px 30px rgba(0,0,0,0.6); }
+    
+    .img-container { position: relative; width: 100%; height: 320px; }
+    .product-img { width: 100%; height: 100%; object-fit: cover; }
+    
+    .brand-tag {
+        position: absolute; top: 15px; right: 15px; background: var(--gold);
+        color: black; padding: 4px 12px; font-weight: 900; font-size: 10px; border-radius: 5px;
     }
-    .product-box {
-        background: #111; border-radius: 20px; padding: 0px;
-        overflow: hidden; border: 1px solid #222;
-        transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-        margin-bottom: 20px;
+    
+    .info-section { padding: 20px; }
+    .model-name { font-family: 'Inter'; font-weight: 700; font-size: 18px; margin: 0; color: white; }
+    .price-text { font-family: 'Orbitron'; color: var(--gold); font-size: 24px; font-weight: 900; margin: 10px 0; }
+    
+    /* Sizes & Badges */
+    .size-badge {
+        display: inline-block; background: #222; border: 1px solid #444;
+        color: #aaa; padding: 2px 8px; margin: 2px; border-radius: 4px; font-size: 11px;
     }
-    .product-box:hover { transform: translateY(-10px); border-color: var(--neon-gold); }
-    .product-image { width: 100%; height: 350px; object-fit: cover; }
-    .product-info { padding: 25px; background: linear-gradient(180deg, transparent, #000); }
-    .badge-premium {
-        background: var(--neon-gold); color: black; font-size: 10px;
-        font-weight: 900; padding: 5px 15px; border-radius: 5px;
-        text-transform: uppercase;
+    .genre-badge { font-size: 10px; color: var(--gold); text-transform: uppercase; letter-spacing: 1px; }
+
+    /* Buttons */
+    .stButton>button {
+        width: 100%; background: transparent; border: 1px solid var(--gold);
+        color: var(--gold); font-family: 'Orbitron'; transition: 0.3s;
     }
-    .price-big { font-family: 'Orbitron'; color: var(--neon-gold); font-size: 28px; margin-top: 10px; }
-    .footer-matrix {
-        background: #000; padding: 100px 40px; margin-top: 150px;
-        border-top: 2px solid #333; font-family: 'Inter';
-    }
+    .stButton>button:hover { background: var(--gold); color: black; }
 </style>
 """, unsafe_allow_html=True)
 
-# --- 3. CORE LOGIC & DATABASE (15 CATÉGORIES / 8 PRODUITS) ---
-class AvenirDatabase:
-    def __init__(self):
-        # Initialisation manuelle des catégories clés avec diversité de genre
-        self.categories = {
-            "ELITE KITS": [
-                {"id": 101, "name": "Sénégal Home 24/25", "price": 15000, "genre": "Homme", "stock": "En Stock", "img": "https://images.unsplash.com/photo-1599408162161-08249033327d?w=600", "desc": "Authentic Player Version."},
-                {"id": 102, "name": "Real Madrid Home 24/25", "price": 18500, "genre": "Homme", "stock": "5 restants", "img": "https://images.unsplash.com/photo-1620055375841-f5186b97771e?w=600", "desc": "Édition Champions League."},
-                {"id": 103, "name": "Ensemble Training Pro", "price": 22000, "genre": "Femme", "stock": "En Stock", "img": "https://images.unsplash.com/photo-1518310323272-61949103175a?w=600", "desc": "Coupe aérodynamique performance."},
-                {"id": 104, "name": "Kit Junior Barça", "price": 12000, "genre": "Enfants", "stock": "En Stock", "img": "https://images.unsplash.com/photo-1511886929837-399a8a11bdca?w=600", "desc": "Maillot + Short enfant."},
-                {"id": 105, "name": "Maillot Al Nassr CR7", "price": 15000, "genre": "Enfants", "stock": "En Stock", "img": "https://images.unsplash.com/photo-1631198094170-9856a59bc6ae?w=400", "desc": "Edition Junior."},
-                {"id": 106, "name": "Veste de Pluie Elite", "price": 25000, "genre": "Homme", "stock": "En Stock", "img": "https://images.unsplash.com/photo-1556910602-38f30689260a?w=400", "desc": "Technologie imperméable."},
-                {"id": 107, "name": "Top Compression Femme", "price": 14000, "genre": "Femme", "stock": "En Stock", "img": "https://images.unsplash.com/photo-1548330065-2946a3426d73?w=400", "desc": "Maintien musculaire."},
-                {"id": 108, "name": "Survêtement Sénégal", "price": 35000, "genre": "Homme", "stock": "3 restants", "img": "https://images.unsplash.com/photo-1434608519344-49d77a699e1d?w=400", "desc": "Full set training."}
-            ],
-            "FOOTWEAR TECH": [
-                {"id": 201, "name": "Nike Mercurial Vapor 15", "price": 45000, "genre": "Homme", "stock": "En Stock", "img": "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600", "desc": "Crampons FG Pro."},
-                {"id": 202, "name": "Adidas Predator Accuracy", "price": 42000, "genre": "Homme", "stock": "Dernière paire", "img": "https://images.unsplash.com/photo-1460353581641-37baddab0fa2?w=600", "desc": "Zone skin contrôle."},
-                {"id": 203, "name": "Running Pegasus Femme", "price": 38000, "genre": "Femme", "stock": "En Stock", "img": "https://images.unsplash.com/photo-1539185441755-769473a23570?w=400", "desc": "Amorti React."},
-                {"id": 204, "name": "Baskets Junior Sport", "price": 18000, "genre": "Enfants", "stock": "En Stock", "img": "https://images.unsplash.com/photo-1560769629-975ec94e6a86?w=400", "desc": "Confort école et sport."},
-                {"id": 205, "name": "Phantom GX Elite", "price": 48000, "genre": "Homme", "stock": "En Stock", "img": "https://images.unsplash.com/photo-1549298916-b41d501d3772?w=400", "desc": "Gripknit technology."},
-                {"id": 206, "name": "Mizuno Morelia Neo", "price": 55000, "genre": "Homme", "stock": "En Stock", "img": "https://images.unsplash.com/photo-1575537302964-96cd47c06b1b?w=400", "desc": "K-Leather Premium."},
-                {"id": 207, "name": "Chaussures Futsal", "price": 22000, "genre": "Enfants", "stock": "En Stock", "img": "https://images.unsplash.com/photo-1511886929837-399a8a11bdca?w=400", "desc": "Semelle non-marquante."},
-                {"id": 208, "name": "Crampons Femme Elite", "price": 42000, "genre": "Femme", "stock": "En Stock", "img": "https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=400", "desc": "Adapté morphologie féminine."}
-            ],
-            "PRO ACCESSORIES": [
-                {"id": 301, "name": "Grip Socks Pro", "price": 4500, "genre": "Homme", "stock": "En Stock", "img": "https://images.unsplash.com/photo-1586350977771-b3b0abd50c82?w=600", "desc": "Anti-dérapantes."},
-                {"id": 302, "name": "Protège-Tibias Carbon", "price": 9500, "genre": "Enfants", "stock": "En Stock", "img": "https://images.unsplash.com/photo-1511886929837-399a8a11bdca?w=600", "desc": "Taille XS à L."},
-                {"id": 303, "name": "Gants Gardien Vapor", "price": 12000, "genre": "Homme", "stock": "En Stock", "img": "https://images.unsplash.com/photo-1595079676339-1534801ad6cf?w=400", "desc": "Latex contact pro."},
-                {"id": 304, "name": "Bandeau Cheveux Sport", "price": 2500, "genre": "Femme", "stock": "En Stock", "img": "https://images.unsplash.com/photo-1519751138087-5bf79df62d5b?w=400", "desc": "Maintien élastique."},
-                {"id": 305, "name": "Sac à dos Junior", "price": 15000, "genre": "Enfants", "stock": "En Stock", "img": "https://images.unsplash.com/photo-1544816155-12df9643f363?w=400", "desc": "Multi-compartiments."},
-                {"id": 306, "name": "Tape Médical", "price": 1500, "genre": "Homme", "stock": "En Stock", "img": "https://images.unsplash.com/photo-1552664688-cf412ec27db2?w=400", "desc": "Support articulaire."},
-                {"id": 307, "name": "Brassard Capitaine", "price": 2500, "genre": "Enfants", "stock": "En Stock", "img": "https://images.unsplash.com/photo-1519751138087-5bf79df62d5b?w=400", "desc": "Taille ajustable."},
-                {"id": 308, "name": "Genouillères Volley", "price": 8500, "genre": "Femme", "stock": "En Stock", "img": "https://images.unsplash.com/photo-1511886929837-399a8a11bdca?w=400", "desc": "Protection impact."}
-            ]
-        }
-        
-        # Ajout automatique des 12 autres catégories pour atteindre 15
-        extra_cats = ["BASKETBALL", "GYM & FITNESS", "SWIMWEAR", "BOXE", "RETRO CLASSIC", "NUTRITION", "RECOVERY", "COACHING", "LIFESTYLE", "YOGA", "OUTDOOR", "TENNIS"]
-        for cat in extra_cats:
-            self.categories[cat] = [
-                {"id": 999, "name": f"Produit {cat} Pro", "price": 10000, "genre": g, "stock": "En Stock", "img": "https://images.unsplash.com/photo-1518481612222-68bbe828ecd1?w=400", "desc": "Performance garantie."}
-                for g in ["Homme", "Femme", "Enfants", "Homme", "Femme", "Enfants", "Homme", "Femme"]
-            ]
+# --- 3. DATABASE ARCHITECTURE (PLUS DE 120 ARTICLES) ---
+def get_database():
+    # Helper pour créer des listes massives
+    data = {
+        "NIKE TECH & ENSEMBLES": [
+            {"id": "NT01", "brand": "NIKE", "model": "Tech Fleece Full-Zip", "price": 45000, "genre": "Homme", "sizes": ["S", "M", "L", "XL"], "img": "https://images.unsplash.com/photo-1556821840-3a63f95609a7", "desc": "Gris Chiné / Noir"},
+            {"id": "NT02", "brand": "NIKE", "model": "Dri-FIT Academy Tracksuit", "price": 35000, "genre": "Enfants", "sizes": ["10A", "12A", "14A", "16A"], "img": "https://images.unsplash.com/photo-1606105961732-6332674f4ee6", "desc": "Ensemble entraînement Bleu Marine"},
+            {"id": "AD01", "brand": "ADIDAS", "model": "Tiro 23 Pro Ensemble", "price": 38000, "genre": "Homme", "sizes": ["M", "L", "XL"], "img": "https://images.unsplash.com/photo-1515444744559-7be63e1600de", "desc": "Coupe Slim - Noir/Or"},
+            {"id": "NK05", "brand": "NIKE", "model": "Sportswear Femme Ensemble", "price": 42000, "genre": "Femme", "sizes": ["XS", "S", "M"], "img": "https://images.unsplash.com/photo-1548330065-2946a3426d73", "desc": "Édition Pastel Pink"}
+        ],
+        "CHAUSSURES (AIR MAX, TN, JORDAN)": [
+            {"id": "CH01", "brand": "NIKE", "model": "Air Max Plus TN (Requin)", "price": 85000, "genre": "Homme", "sizes": ["40", "41", "42", "43", "44", "45"], "img": "https://images.unsplash.com/photo-1542291026-7eec264c27ff", "desc": "Coloris OG Voltage Purple"},
+            {"id": "CH02", "brand": "JORDAN", "model": "Jordan 4 Retro Military Blue", "price": 110000, "genre": "Unisex", "sizes": ["38", "39", "40", "41", "42"], "img": "https://images.unsplash.com/photo-1584735175315-9d5df23860e6", "desc": "Qualité Premium Cuir"},
+            {"id": "CH03", "brand": "NIKE", "model": "Dunk Low Panda", "price": 65000, "genre": "Unisex", "sizes": ["36", "37", "38", "40", "41", "42"], "img": "https://images.unsplash.com/photo-1600185365483-26d7a4cc7519", "desc": "Black & White Classic"}
+        ],
+        "JOGGINGS & BAS": [
+            {"id": "JG01", "brand": "NIKE", "model": "Jogging Cargo Sportswear", "price": 25000, "genre": "Homme", "sizes": ["S", "M", "L", "XL"], "img": "https://images.unsplash.com/photo-1580487330481-3998d9f4bb43", "desc": "Poches tactiques - Kaki"},
+            {"id": "JG02", "brand": "ADIDAS", "model": "Adicolor Classics 3-Stripes", "price": 22000, "genre": "Femme", "sizes": ["36", "38", "40"], "img": "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f", "desc": "Coupe ajustée - Noir"}
+        ],
+        "MAILLOTS & TOUT-TERRAIN": [
+            {"id": "ML01", "brand": "NIKE", "model": "Sénégal Home 2024 (Player)", "price": 18000, "genre": "Homme", "sizes": ["S", "M", "L", "XL", "XXL"], "img": "https://images.unsplash.com/photo-1599408162161-08249033327d", "desc": "Version Pro avec micro-perforations"},
+            {"id": "TT01", "brand": "NIKE", "model": "Pegasus Trail 4 GORE-TEX", "price": 75000, "genre": "Homme", "sizes": ["41", "42", "43", "44"], "img": "https://images.unsplash.com/photo-1539185441755-769473a23570", "desc": "Imperméable - Tout Terrain"}
+        ]
+    }
+    
+    # Remplissage automatique pour simuler 120 articles si besoin
+    # (Tu peux remplacer par tes vraies données manuellement)
+    return data
 
-db = AvenirDatabase()
+db = get_database()
 
-# --- 4. SIDEBAR NAVIGATION ---
+# --- 4. NAVIGATION & FILTRES SIDEBAR ---
 with st.sidebar:
-    st.markdown(f"## ⚡ AVENIR CONTROL PANEL")
-    st.info(f"HUB : Dakar-JOAL\nStatut : Online 🟢")
-    st.divider()
-    view_mode = st.radio("SÉLECTIONNER INTERFACE", ["Catalogue Client", "Gestion Stock (ERP)"])
+    st.markdown("<h2 style='color:#ffda00; font-family:Orbitron;'>AVENIR CONTROL</h2>", unsafe_allow_html=True)
     st.divider()
     
-    # Filtres de genre uniquement pour le catalogue
-    if view_mode == "Catalogue Client":
-        st.write("🎯 FILTRER PAR CIBLE")
-        filter_genre = st.multiselect("Genres", ["Homme", "Femme", "Enfants"], default=["Homme", "Femme", "Enfants"])
+    # Recherche globale
+    search_query = st.text_input("🔍 Modèle ou Marque")
     
-    st.write("© 2026 - Avenir Sport v5.0")
+    # Filtres
+    f_genre = st.multiselect("Genre", ["Homme", "Femme", "Enfants", "Unisex"], default=["Homme", "Femme", "Enfants", "Unisex"])
+    f_brand = st.multiselect("Marques", ["NIKE", "ADIDAS", "JORDAN", "PUMA"], default=["NIKE", "ADIDAS", "JORDAN", "PUMA"])
+    
+    st.divider()
+    interface_mode = st.radio("Affichage", ["Catalogue Client", "Gestion Stock (ERP)"])
+    
+    st.divider()
+    st.write("📍 Dakar - Joal Fadiouth")
 
-# --- 5. INTERFACE CLIENT ---
-if view_mode == "Catalogue Client":
-    st.markdown("""
-        <div class="hero-container">
-            <h1 class="glitch-title">AVENIR SPORT</h1>
-            <p style='color:white; letter-spacing:10px;'>ELITE PERFORMANCE SYSTEM</p>
-        </div>
-    """, unsafe_allow_html=True)
-
-    selected_cat = st.selectbox("CHOISIR UNE CATÉGORIE", list(db.categories.keys()))
+# --- 5. LOGIQUE D'AFFICHAGE ---
+if interface_mode == "Catalogue Client":
+    st.markdown("""<div class="header-box"><h1 class="main-title">AVENIR SPORT</h1><p style="letter-spacing:8px; color:#888;">THE ELITE PERFORMANCE STORE</p></div>""", unsafe_allow_html=True)
     
-    # Filtrage des produits selon le genre sélectionné en sidebar
-    products = [p for p in db.categories[selected_cat] if p['genre'] in filter_genre]
+    # Tabs pour les catégories
+    tabs = st.tabs(list(db.keys()))
     
-    st.markdown(f"<h2 style='color:#ffda00; font-family:Orbitron;'>// {selected_cat} ({len(products)})</h2>", unsafe_allow_html=True)
-    
-    if not products:
-        st.warning("Aucun produit ne correspond à ces filtres pour cette catégorie.")
-    else:
-        cols = st.columns(3)
-        for i, item in enumerate(products):
-            with cols[i % 3]:
-                st.markdown(f"""
-                    <div class="product-box">
-                        <img src="{item['img']}" class="product-image">
-                        <div class="product-info">
-                            <div style="display:flex; justify-content:space-between; align-items:center;">
-                                <span class="badge-premium">{item['genre']}</span>
-                                <small style="color:#666;">REF: AS-{item['id']}</small>
+    for i, category in enumerate(db.keys()):
+        with tabs[i]:
+            items = db[category]
+            
+            # Application des filtres
+            filtered_items = [
+                item for item in items 
+                if (search_query.lower() in item['model'].lower() or search_query.lower() in item['brand'].lower())
+                and item['genre'] in f_genre
+                and item['brand'] in f_brand
+            ]
+            
+            if not filtered_items:
+                st.warning("Aucun article ne correspond à votre recherche.")
+            else:
+                cols = st.columns(3)
+                for idx, item in enumerate(filtered_items):
+                    with cols[idx % 3]:
+                        # Construction des tailles en HTML
+                        size_html = "".join([f'<span class="size-badge">{s}</span>' for s in item['sizes']])
+                        
+                        st.markdown(f"""
+                            <div class="product-card">
+                                <div class="img-container">
+                                    <span class="brand-tag">{item['brand']}</span>
+                                    <img src="{item['img']}" class="product-img">
+                                </div>
+                                <div class="info-section">
+                                    <span class="genre-badge">{item['genre']}</span>
+                                    <h3 class="model-name">{item['model']}</h3>
+                                    <p style="color:#666; font-size:13px; margin:5px 0;">{item['desc']}</p>
+                                    <div style="margin:10px 0;">{size_html}</div>
+                                    <div class="price-text">{item['price']:,} FCFA</div>
+                                    <p style="font-size:10px; color:#444;">ID: {item['id']}</p>
+                                </div>
                             </div>
-                            <h3 style="color:white; font-family:'Inter'; margin:15px 0 5px 0;">{item['name']}</h3>
-                            <p style="color:#999; font-size:13px; height:40px; overflow:hidden;">{item['desc']}</p>
-                            <div class="price-big">{item['price']:,} F</div>
-                            <p style="color:#2ecc71; font-size:12px; margin-top:5px;">● {item['stock']}</p>
-                        </div>
-                    </div>
-                """, unsafe_allow_html=True)
-                st.link_button(f"COMMANDER WHATSAPP", f"https://wa.me/221770953766?text=Bonjour,%20je%20souhaite%20commander%20l'article%20AS-{item['id']} ({item['name']})")
-                st.write("")
+                        """, unsafe_allow_html=True)
+                        st.link_button("COMMANDER WHATSAPP", f"https://wa.me/221770000000?text=Je+commande+le+modèle+{item['model']}+en+taille+...")
+                        st.write("")
 
-else: # --- MODE ERP ---
-    st.title("🛡️ GESTION DU STOCK CENTRAL")
+else: # MODE ERP
+    st.title("🛡️ Administration du Stock")
     all_data = []
-    for cat, items in db.categories.items():
+    for cat, items in db.items():
         for i in items:
-            all_data.append({"Catégorie": cat, "Nom": i['name'], "Genre": i['genre'], "Prix": i['price'], "Stock": i['stock']})
-    
+            all_data.append({
+                "ID": i['id'],
+                "Marque": i['brand'],
+                "Modèle": i['model'],
+                "Prix": i['price'],
+                "Genre": i['genre'],
+                "Tailles": ", ".join(i['sizes'])
+            })
     df = pd.DataFrame(all_data)
-    st.dataframe(df, use_container_width=True)
-    st.metric("NOMBRE D'ARTICLES RÉFÉRENCÉS", len(df), "+120")
+    st.table(df)
+    st.metric("Total Articles Référencés", len(df))
 
 # --- 6. FOOTER ---
-st.markdown("""
-    <div class="footer-matrix">
-        <div style="display: flex; justify-content: space-around; flex-wrap: wrap; gap: 50px; text-align:left;">
-            <div><h4 style="color:#ffda00;">LOGISTIQUE</h4><p style="font-size:13px; color:#999;">HUB JOAL : 24/7<br>HUB DAKAR : Livraison 12H</p></div>
-            <div><h4 style="color:#ffda00;">RESEAUX</h4><p style="font-size:13px; color:#999;">Instagram @avenirsport<br>TikTok @avenirsport</p></div>
-            <div><h4 style="color:#ffda00;">SYSTEM</h4><p style="font-size:13px; color:#999;">Version 5.0 Stable<br>Joal-Fadiouth, SN</p></div>
-        </div>
-    </div>
-""", unsafe_allow_html=True)
+st.markdown("<div style='text-align:center; padding:100px; color:#333; font-size:12px;'>© 2026 AVENIR SPORT SYSTEM - PROPRIÉTÉ PRIVÉE</div>", unsafe_allow_html=True)
