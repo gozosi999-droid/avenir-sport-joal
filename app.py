@@ -74,7 +74,7 @@ db = [
     Product("NK-SN-24", "NIKE", "MAILLOT FOOT", "Sénégal Home 24/25", "Unisex", ["M", "L", "XL", "XXL"], 15000, "https://i.ibb.co/bMShDsqb/image.jpg"),
     
     # --- ADIDAS SECTION ---
-    Product("AD-001", "ADIDAS", "RUNNING", "Ultraboost Light", "Femme", ["37", "38", "39", "40"], 95000, https://ibb.co/Tqh9ZW1j/image.jpg"),
+   Product("NK-003", "NIKE", "MAILLOT FOOT", "Sénégal Home 24/25", "Unisex", ["M", "L", "XL", "XXL"], 15000, "https://i.ibb.co/Tqh9ZW1j/image.jpg"),
     Product("AD-002", "ADIDAS", "JOGGING", "Tiro 23 Competition", "Homme", ["M", "L", "XL"], 38000, "https://images.unsplash.com/photo-1515444744559-7be63e1600de"),
     
     # --- PUMA & NEW BALANCE ---
