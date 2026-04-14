@@ -71,7 +71,7 @@ db = [
     # --- NIKE SECTION ---
     Product("NK-001", "NIKE", "JOGGING", "Tech Fleece Reborn", "Homme", ["S", "M", "L", "XL"], 45000, "https://images.unsplash.com/photo-1556821840-3a63f95609a7"),
     Product("NK-002", "NIKE", "CRAMPONS", "Mercurial Superfly 9", "Unisex", ["40", "41", "42", "43", "44"], 135000, "https://images.unsplash.com/photo-1543353071-873f17a7a088", "ELITE"),
-    Product("NK-003", "NIKE", "MAILLOT FOOT", "Sénégal Home 24/25", "Unisex", ["M", "L", "XL", "XXL"], 15000, "https://images.unsplash.com/photo-1599408162161-08249033327d"),
+    Product(Product("NK-SN-24", "NIKE", "MAILLOT FOOT", "Sénégal Home 24/25", "Unisex", ["M", "L", "XL", "XXL"], 15000, "https://i.ibb.co/bMShDsqb/image.jpg"),
     
     # --- ADIDAS SECTION ---
     Product("AD-001", "ADIDAS", "RUNNING", "Ultraboost Light", "Femme", ["37", "38", "39", "40"], 95000, "https://images.unsplash.com/photo-1539185441755-769473a23570"),
