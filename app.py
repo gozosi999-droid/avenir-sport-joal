@@ -78,7 +78,7 @@ db = [
     Product("AD-002", "ADIDAS", "JOGGING", "Tiro 23 Competition", "Homme", ["M", "L", "XL"], 38000,"https://i.ibb.co/Pszx1bRF/image.jpg"),
     
     # --- PUMA & NEW BALANCE ---
-    Product("PM-001", "PUMA", "MAILLOT FOOT", "Man City Authentic", "Homme", ["S", "M", "L"], 18000, "https://images.unsplash.com/photo-1522778119026-d647f0596c20"),
+    Product("PM-001", "PUMA", "MAILLOT FOOT", "Man City Authentic", "Homme", ["S", "M", "L"], 18000, "https://i.ibb.co/ymGgtnCs/image.jpg"),
     Product("NB-001", "NEW BALANCE", "RUNNING", "Fresh Foam 1080", "Unisex", ["41", "42", "43", "44", "45"], 88000, "https://images.unsplash.com/photo-1539185441755-769473a23570"),
     
     # --- MATÉRIEL & ACCESSOIRES ---
