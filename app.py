@@ -82,7 +82,7 @@ db = [
     Product("PM-001", "PUMA", "MAILLOT FOOT", "Man City Authentic", "Homme", ["S", "M", "L"], 15000, "https://i.ibb.co/ymGgtnCs/image.jpg"),
     Product("NB-001", "NEW BALANCE", "RUNNING", "Fresh Foam 1080", "Unisex", ["41", "42", "43", "44", "45"], 45000, "https://i.ibb.co/H3WtxHn/image.jpg"),
     Product("PM-001", "PUMA", "CRAMPONS", "Puma Future Ultimate", "Unisex", ["40", "41", "42", "43", "44"], 125000, "https://i.ibb.co/r2jCQrVT/image.jpg", "ELITE"),
-   Product("NB-001", "NEW BALANCE", "CRAMPONS", "New Balance Furon V7+ Elite", "Unisex", ["40", "41", "42", "43", "44"], 130000, "LIEN_IMAGE_ICI", "ELITE"),
+  Product("NB-001", "NEW BALANCE", "CRAMPONS", "New Balance Furon V7+", "Unisex", ["40", "41", "42", "43", "44"], 130000, "https://i.ibb.co/KzDvBsqd/image.jpg", "ELITE"),
     # --- MATÉRIEL & ACCESSOIRES ---
     Product("ACC-01", "NIKE", "ACCESSOIRES", "Protège-Tibias Carbon", "Unisex", ["S", "M", "L"], 10000, "https://i.ibb.co/nsjnLfxv/image.jpg"),
     Product("ACC-02", "PUMA", "ACCESSOIRES", "Lot 10 Dossards Pro", "Unisex", ["Taille Unique"], 25000, "https://i.ibb.co/KpQ1Nmr5/image.jpg"),
