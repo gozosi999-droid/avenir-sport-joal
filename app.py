@@ -4,7 +4,7 @@ import pandas as pd
 # --- 1. CONFIGURATION SYSTÈME ---
 st.set_page_config(
     page_title="AVENIR SPORT | ENTERPRISE RESOURCE PLANNING",
-    page_icon="🛡️",
+    page_icon="⚽",
     layout="wide"
 )
 
@@ -141,7 +141,7 @@ for idx, p in enumerate(filtered_db):
                 </div>
             </div>
         """, unsafe_allow_html=True)
-        st.link_button("VÉRIFIER STOCK & COMMANDER", f"https://wa.me/221XXXXXXXXX?text=Bonjour, je souhaite commander la référence {p.id} ({p.model})")
+        st.link_button("VÉRIFIER STOCK & COMMANDER", f"https://wa.me/221770954766?text=Bonjour, je souhaite commander la référence {p.id} ({p.model})")
         st.write("")
 
 # --- 6. VUE ERP (ADMINISTRATION) ---
