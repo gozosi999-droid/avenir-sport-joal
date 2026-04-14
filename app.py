@@ -76,13 +76,13 @@ db = [
     # --- ADIDAS SECTION ---
    Product("NK-003", "ADIDAS", "lIGHT", "ULTRABOOST", "Unisex", ["M", "L", "XL", "XXL"], 25000, "https://i.ibb.co/Tqh9ZW1j/image.jpg"),
     Product("AD-002", "ADIDAS", "JOGGING", "Tiro 23 Competition", "Homme", ["M", "L", "XL"], 30000,"https://i.ibb.co/Pszx1bRF/image.jpg"),
-    Product("AD-004", "ADIDAS", "CRAMPONS", "Predator 20+ FG/AG Inflight", "Unisex", ["40", "41", "42", "43", "44", "45"], 145000, "https://i.ibb.co/vv65nHhM/image.jpg", "ELITE"),
-    Product("AD-005", "ADIDAS", "CRAMPONS", "X Speedportal+ FG Orange", "Unisex", ["40", "41", "42", "43", "44"], 140000, "https://i.ibb.co/KpMF9nPF/image.jpg", "ELITE"),
+    Product("AD-004", "ADIDAS", "CRAMPONS", "Predator 20+ FG/AG Inflight", "Unisex", ["40", "41", "42", "43", "44", "45"], 35000, "https://i.ibb.co/vv65nHhM/image.jpg", "ELITE"),
+    Product("AD-005", "ADIDAS", "CRAMPONS", "X Speedportal+ FG Orange", "Unisex", ["40", "41", "42", "43", "44"], 40000, "https://i.ibb.co/KpMF9nPF/image.jpg", "ELITE"),
     # --- PUMA & NEW BALANCE ---
     Product("PM-001", "PUMA", "MAILLOT FOOT", "Man City Authentic", "Homme", ["S", "M", "L"], 15000, "https://i.ibb.co/ymGgtnCs/image.jpg"),
     Product("NB-001", "NEW BALANCE", "RUNNING", "Fresh Foam 1080", "Unisex", ["41", "42", "43", "44", "45"], 45000, "https://i.ibb.co/H3WtxHn/image.jpg"),
-    Product("PM-001", "PUMA", "CRAMPONS", "Puma Future Ultimate", "Unisex", ["40", "41", "42", "43", "44"], 125000, "https://i.ibb.co/r2jCQrVT/image.jpg", "ELITE"),
-  Product("NB-001", "NEW BALANCE", "CRAMPONS", "New Balance Furon V7+", "Unisex", ["40", "41", "42", "43", "44"], 130000, "https://i.ibb.co/KzDvBsqd/image.jpg", "ELITE"),
+    Product("PM-001", "PUMA", "CRAMPONS", "Puma Future Ultimate", "Unisex", ["40", "41", "42", "43", "44"], 25000, "https://i.ibb.co/r2jCQrVT/image.jpg", "ELITE"),
+  Product("NB-001", "NEW BALANCE", "CRAMPONS", "New Balance Furon V7+", "Unisex", ["40", "41", "42", "43", "44"], 30000, "https://i.ibb.co/KzDvBsqd/image.jpg", "ELITE"),
     # --- MATÉRIEL & ACCESSOIRES ---
     Product("ACC-01", "NIKE", "ACCESSOIRES", "Protège-Tibias Carbon", "Unisex", ["S", "M", "L"], 10000, "https://i.ibb.co/nsjnLfxv/image.jpg"),
     Product("ACC-02", "PUMA", "ACCESSOIRES", "Lot 10 Dossards Pro", "Unisex", ["Taille Unique"], 25000, "https://i.ibb.co/KpQ1Nmr5/image.jpg"),
