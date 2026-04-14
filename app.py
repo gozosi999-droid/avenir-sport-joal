@@ -1,4 +1,43 @@
 import streamlit as st
+import base64
+
+# --- FONCTION TECHNIQUE POUR LE FOND D'ÉCRAN ---
+def get_base64_of_bin_file(bin_file):
+    with open(bin_file, 'rb') as f:
+        data = f.read()
+    return base64.b64encode(data).decode()
+
+def set_png_as_page_bg(bin_file):
+    bin_str = get_base64_of_bin_file(bin_file)
+    page_bg_img = f'''
+    <style>
+    .stApp {{
+        background-image: url("data:image/png;base64,{bin_str}");
+        background-size: cover;
+        background-attachment: fixed;
+    }}
+    
+    /* On rend les textes plus lisibles sur le fond */
+    h1, h2, h3, p {{
+        color: white;
+        text-shadow: 2px 2px 4px #000000;
+    }}
+    </style>
+    '''
+    st.markdown(page_bg_img, unsafe_allow_html=True)
+
+# --- CONFIGURATION ---
+st.set_page_config(page_title="Avenir Sport Joal", layout="wide")
+
+# Appliquer le fond (REMPLACE "fond.jpg" PAR LE NOM DE TON IMAGE)
+try:
+    set_png_as_page_bg('fond.jpg')
+except:
+    st.warning("L'image de fond n'a pas été trouvée sur GitHub.")
+
+# --- LE RESTE DE TON CODE (LOGO, TITRE, WHATSAPP) ---
+st.image("logo.png", width=150)
+st.title("🦁 AVENIR SPORT JOAL")
 
 # Configuration de la page
 st.set_page_config(page_title="Avenir Sport Joal", page_icon="⚽", layout="wide")
