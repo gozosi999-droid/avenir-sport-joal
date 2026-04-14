@@ -79,12 +79,12 @@ db = [
     
     # --- PUMA & NEW BALANCE ---
     Product("PM-001", "PUMA", "MAILLOT FOOT", "Man City Authentic", "Homme", ["S", "M", "L"], 18000, "https://i.ibb.co/ymGgtnCs/image.jpg"),
-    Product("NB-001", "NEW BALANCE", "RUNNING", "Fresh Foam 1080", "Unisex", ["41", "42", "43", "44", "45"], 88000, "https://images.unsplash.com/photo-1539185441755-769473a23570"),
+    Product("NB-001", "NEW BALANCE", "RUNNING", "Fresh Foam 1080", "Unisex", ["41", "42", "43", "44", "45"], 88000, "https://i.ibb.co/H3WtxHn/image.jpg"),
     
     # --- MATÉRIEL & ACCESSOIRES ---
-    Product("ACC-01", "NIKE", "ACCESSOIRES", "Protège-Tibias Carbon", "Unisex", ["S", "M", "L"], 12000, "https://images.unsplash.com/photo-1511886929837-399a8a11bdca"),
-    Product("ACC-02", "PUMA", "ACCESSOIRES", "Lot 10 Dossards Pro", "Unisex", ["Taille Unique"], 25000, "https://images.unsplash.com/photo-1526401485004-46910ecc8e51", "CLUB"),
-    Product("ACC-03", "NIKE", "ACCESSOIRES", "Chaussettes Foot (Pack de 3)", "Unisex", ["38-42", "43-46"], 7500, "https://images.unsplash.com/photo-1586350977771-b3b0abd50c82")
+    Product("ACC-01", "NIKE", "ACCESSOIRES", "Protège-Tibias Carbon", "Unisex", ["S", "M", "L"], 12000, "https://i.ibb.co/nsjnLfxv/image.jpg"),
+    Product("ACC-02", "PUMA", "ACCESSOIRES", "Lot 10 Dossards Pro", "Unisex", ["Taille Unique"], 25000, "https://i.ibb.co/KpQ1Nmr5/image.jpg"),
+    Product("ACC-03", "NIKE", "ACCESSOIRES", "Chaussettes Foot (Pack de 3)", "Unisex", ["38-42", "43-46"], 7500, "https://i.ibb.co/LDYs9CSt/image.jpg")
 ]
 
 # --- 4. ENGINE DE FILTRAGE ---
