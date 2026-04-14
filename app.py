@@ -1,5 +1,4 @@
 import streamlit as st
-import streamlit as st
 
 # Configuration de la page
 st.set_page_config(page_title="Avenir Sport Joal", page_icon="⚽", layout="wide")
@@ -19,9 +18,6 @@ with col_titre:
 st.write("---")
 
 # ... (Le reste de ton code avec les produits et les boutons WhatsApp)
-# Configuration de la page
-st.set_page_config(page_title="Avenir Sport Joal", page_icon="⚽", layout="wide")
-
 # --- TON NUMÉRO WHATSAPP ---
 mon_numero = "221770953766" # REMPLACE PAR TON VRAI NUMÉRO (ex: 221771234567)
 
