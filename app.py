@@ -141,7 +141,7 @@ for idx, p in enumerate(filtered_db):
                 </div>
             </div>
         """, unsafe_allow_html=True)
-        st.link_button("VÉRIFIER STOCK & COMMANDER", f"https://wa.me/221770954766?text=Bonjour, je souhaite commander la référence {p.id} ({p.model})")
+        st.link_button("VÉRIFIER STOCK & COMMANDER", f"https://wa.me/221770953766?text=Bonjour, je souhaite commander la référence {p.id} ({p.model})")
         st.write("")
 
 # --- 6. VUE ERP (ADMINISTRATION) ---
@@ -153,3 +153,29 @@ with st.expander("📊 ANALYSE DES STOCKS (MODE ADMIN)"):
     c1.metric("Total Items", len(db))
     c2.metric("Valeur Stock", f"{sum(p.price for p in db):,} F")
     c3.metric("Marques", len(set(p.brand for p in db)))
+    # --- 7. FOOTER MASSIVE ---
+st.markdown("""
+    <div class="footer-matrix">
+        <div style="display: flex; justify-content: space-around; flex-wrap: wrap; gap: 50px;">
+            <div style="max-width:300px;">
+                <h3 style="color:#ffda00; font-family:Orbitron;">AVENIR_CORP</h3>
+                <p style="font-size:14px; color:#666;">Leader de l'équipement sportif au Sénégal. Importation directe, qualité certifiée, logistique optimisée.</p>
+            </div>
+            <div>
+                <h4 style="color:#ffda00;">LOGISTIQUE</h4>
+                <p style="font-size:13px;">HUB JOAL : 24/7<br>HUB DAKAR : Livraison 12H<br>HUB MBOUR : Livraison 24H</p>
+            </div>
+            <div>
+                <h4 style="color:#ffda00;">LEGAL</h4>
+                <p style="font-size:13px;">Conditions Générales de Vente<br>Politique de Retour Elite<br>Mentions Légales</p>
+            </div>
+            <div>
+                <h4 style="color:#ffda00;">RESEAUX SOCIAUX</h4>
+                <p style="font-size:13px;">Instagram @avenirsport_elite<br>TikTok @avenirsport_joal<br>Facebook Avenir Sport Sénégal</p>
+            </div>
+        </div>
+        <div style="text-align:center; margin-top:80px; opacity:0.3; font-size:10px;">
+            SÉCURISÉ PAR AVENIR-SYSTEMS-SECURITY-PROTOCOL v4.0.1
+        </div>
+    </div>
+""", unsafe_allow_html=True)
