@@ -1,150 +1,90 @@
 import streamlit as st
 import pandas as pd
 from datetime import datetime
-import time
+import os
 
-# --- 1. CONFIGURATION DU NOYAU ---
+# --- 1. CONFIGURATION DU MOTEUR ---
 st.set_page_config(
-    page_title="AVENIR SPORT | NEURAL INTERFACE",
-    page_icon="🧬",
+    page_title="AVENIR SPORT | Elite ERP System",
+    page_icon="⚡",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
-# --- 2. MOTEUR DE DESIGN "CYBER-GOLD" ---
+# --- 2. SYSTÈME DE DESIGN "CYBER-GOLD" ---
 st.markdown("""
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=Share+Tech+Mono&family=Inter:wght@300;400;700&display=swap');
-    :root { --neon-gold: #ffda00; --dark-bg: #030303; }
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=Inter:wght@300;400;700&display=swap');
+    :root { --neon-gold: #ffda00; --dark-bg: #050505; --glass: rgba(255, 255, 255, 0.03); }
     .stApp {
         background-color: var(--dark-bg);
         background-image: linear-gradient(rgba(255, 218, 0, 0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 218, 0, 0.02) 1px, transparent 1px);
-        background-size: 40px 40px;
+        background-size: 50px 50px;
     }
-    @keyframes scanline { 0% { top: 0%; } 100% { top: 100%; } }
-    @keyframes pulse-green { 0% { opacity: 0.4; } 50% { opacity: 1; } 100% { opacity: 0.4; } }
+    .hero-container {
+        padding: 60px; text-align: center;
+        background: linear-gradient(180deg, rgba(255,218,0,0.1) 0%, transparent 100%);
+        border-radius: 0 0 50px 50px; border-bottom: 2px solid var(--neon-gold);
+        margin-bottom: 50px;
+    }
     .glitch-title {
-        font-family: 'Orbitron', sans-serif;
-        font-size: clamp(40px, 8vw, 100px) !important;
-        font-weight: 900;
-        color: var(--neon-gold);
-        text-align: center;
-        letter-spacing: 12px;
-        text-shadow: 0 0 20px rgba(255, 218, 0, 0.4);
-        margin: 0;
-        padding: 20px 0;
-    }
-    .sidebar-monitor {
-        background: rgba(255, 218, 0, 0.05);
-        border: 1px solid var(--neon-gold);
-        padding: 15px;
-        border-radius: 12px;
-        position: relative;
-        overflow: hidden;
-        margin-bottom: 20px;
-        font-family: 'Share Tech Mono', monospace;
-    }
-    .sidebar-monitor::after {
-        content: ""; position: absolute; width: 100%; height: 2px;
-        background: var(--neon-gold); top: 0; left: 0;
-        opacity: 0.2; animation: scanline 4s linear infinite;
-    }
-    .status-dot {
-        height: 8px; width: 8px; background: #2ecc71;
-        border-radius: 50%; display: inline-block;
-        animation: pulse-green 1s infinite;
+        font-family: 'Orbitron', sans-serif; font-size: 80px !important;
+        font-weight: 900; color: var(--neon-gold); text-transform: uppercase;
+        letter-spacing: 15px; line-height: 1; margin: 0;
+        text-shadow: 0 0 30px rgba(255, 218, 0, 0.5);
     }
     .product-box {
-        background: #0a0a0a; border: 1px solid #222;
-        border-radius: 20px; padding: 0; overflow: hidden;
-        transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        background: #111; border-radius: 20px; padding: 0px;
+        overflow: hidden; border: 1px solid #222;
+        transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        margin-bottom: 20px;
     }
-    .product-box:hover { border-color: var(--neon-gold); transform: translateY(-8px); }
-    .price-cyber { font-family: 'Orbitron'; color: var(--neon-gold); font-size: 24px; font-weight: 900; }
+    .product-box:hover { transform: translateY(-10px); border-color: var(--neon-gold); }
+    .product-image { width: 100%; height: 350px; object-fit: cover; }
+    .product-info { padding: 25px; background: linear-gradient(180deg, transparent, #000); }
+    .badge-premium {
+        background: var(--neon-gold); color: black; font-size: 10px;
+        font-weight: 900; padding: 5px 15px; border-radius: 5px;
+        text-transform: uppercase;
+    }
+    .price-big { font-family: 'Orbitron'; color: var(--neon-gold); font-size: 28px; margin-top: 10px; }
+    .footer-matrix {
+        background: #000; padding: 100px 40px; margin-top: 150px;
+        border-top: 2px solid #333; font-family: 'Inter';
+    }
 </style>
 """, unsafe_allow_html=True)
 
-# --- 3. SYSTÈME DE DONNÉES ---
-class AvenirSystem:
+# --- 3. CORE LOGIC & DATABASE (15 CATÉGORIES / 8 PRODUITS) ---
+class AvenirDatabase:
     def __init__(self):
-        self.data = {
-            "ELITE MAILLOTS": [
-                {"id": 101, "nom": "Sénégal Home Kit 2024", "prix": 15000, "genre": "Unisexe", "desc": "Qualité Thaïlande AAA", "img": "https://images.unsplash.com/photo-1599408162161-08249033327d?w=600"},
-                {"id": 102, "nom": "Real Madrid Edition", "prix": 18500, "genre": "Homme", "desc": "Patchs UCL inclus", "img": "https://images.unsplash.com/photo-1620055375841-f5186b97771e?w=600"},
-                {"id": 103, "nom": "Ensemble Training Pro", "prix": 25000, "genre": "Unisexe", "desc": "Veste + Pantalon", "img": "https://images.unsplash.com/photo-1552664688-cf412ec27db2?w=600"},
+        # Initialisation manuelle des catégories clés avec diversité de genre
+        self.categories = {
+            "ELITE KITS": [
+                {"id": 101, "name": "Sénégal Home 24/25", "price": 15000, "genre": "Homme", "stock": "En Stock", "img": "https://images.unsplash.com/photo-1599408162161-08249033327d?w=600", "desc": "Authentic Player Version."},
+                {"id": 102, "name": "Real Madrid Home 24/25", "price": 18500, "genre": "Homme", "stock": "5 restants", "img": "https://images.unsplash.com/photo-1620055375841-f5186b97771e?w=600", "desc": "Édition Champions League."},
+                {"id": 103, "name": "Ensemble Training Pro", "price": 22000, "genre": "Femme", "stock": "En Stock", "img": "https://images.unsplash.com/photo-1518310323272-61949103175a?w=600", "desc": "Coupe aérodynamique performance."},
+                {"id": 104, "name": "Kit Junior Barça", "price": 12000, "genre": "Enfants", "stock": "En Stock", "img": "https://images.unsplash.com/photo-1511886929837-399a8a11bdca?w=600", "desc": "Maillot + Short enfant."},
+                {"id": 105, "name": "Maillot Al Nassr CR7", "price": 15000, "genre": "Enfants", "stock": "En Stock", "img": "https://images.unsplash.com/photo-1631198094170-9856a59bc6ae?w=400", "desc": "Edition Junior."},
+                {"id": 106, "name": "Veste de Pluie Elite", "price": 25000, "genre": "Homme", "stock": "En Stock", "img": "https://images.unsplash.com/photo-1556910602-38f30689260a?w=400", "desc": "Technologie imperméable."},
+                {"id": 107, "name": "Top Compression Femme", "price": 14000, "genre": "Femme", "stock": "En Stock", "img": "https://images.unsplash.com/photo-1548330065-2946a3426d73?w=400", "desc": "Maintien musculaire."},
+                {"id": 108, "name": "Survêtement Sénégal", "price": 35000, "genre": "Homme", "stock": "3 restants", "img": "https://images.unsplash.com/photo-1434608519344-49d77a699e1d?w=400", "desc": "Full set training."}
             ],
             "FOOTWEAR TECH": [
-                {"id": 201, "nom": "Nike Mercurial Vapor 15", "prix": 45000, "genre": "Homme", "desc": "Crampons multi-terrains", "img": "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600"},
-                {"id": 202, "nom": "Adidas Predator Acc.", "prix": 42000, "genre": "Unisexe", "desc": "Zone Skin Grip", "img": "https://images.unsplash.com/photo-1460353581641-37baddab0fa2?w=600"},
+                {"id": 201, "name": "Nike Mercurial Vapor 15", "price": 45000, "genre": "Homme", "stock": "En Stock", "img": "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600", "desc": "Crampons FG Pro."},
+                {"id": 202, "name": "Adidas Predator Accuracy", "price": 42000, "genre": "Homme", "stock": "Dernière paire", "img": "https://images.unsplash.com/photo-1460353581641-37baddab0fa2?w=600", "desc": "Zone skin contrôle."},
+                {"id": 203, "name": "Running Pegasus Femme", "price": 38000, "genre": "Femme", "stock": "En Stock", "img": "https://images.unsplash.com/photo-1539185441755-769473a23570?w=400", "desc": "Amorti React."},
+                {"id": 204, "name": "Baskets Junior Sport", "price": 18000, "genre": "Enfants", "stock": "En Stock", "img": "https://images.unsplash.com/photo-1560769629-975ec94e6a86?w=400", "desc": "Confort école et sport."},
+                {"id": 205, "name": "Phantom GX Elite", "price": 48000, "genre": "Homme", "stock": "En Stock", "img": "https://images.unsplash.com/photo-1549298916-b41d501d3772?w=400", "desc": "Gripknit technology."},
+                {"id": 206, "name": "Mizuno Morelia Neo", "price": 55000, "genre": "Homme", "stock": "En Stock", "img": "https://images.unsplash.com/photo-1575537302964-96cd47c06b1b?w=400", "desc": "K-Leather Premium."},
+                {"id": 207, "name": "Chaussures Futsal", "price": 22000, "genre": "Enfants", "stock": "En Stock", "img": "https://images.unsplash.com/photo-1511886929837-399a8a11bdca?w=400", "desc": "Semelle non-marquante."},
+                {"id": 208, "name": "Crampons Femme Elite", "price": 42000, "genre": "Femme", "stock": "En Stock", "img": "https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=400", "desc": "Adapté morphologie féminine."}
             ],
-            "ACCESSOIRES & DIVERS": [
-                {"id": 301, "nom": "Protège-Tibias Carbon-X", "prix": 9500, "genre": "Unisexe", "desc": "Ultra-léger", "img": "https://images.unsplash.com/photo-1511886929837-399a8a11bdca?w=600"},
-                {"id": 302, "nom": "Chaussettes Grip Pro", "prix": 5000, "genre": "Unisexe", "desc": "Antidérapant", "img": "https://images.unsplash.com/photo-1586350977771-b3b0abd50c82?w=600"},
-            ]
-        }
-
-sys = AvenirSystem()
-
-# --- 4. CONTROL PANEL SIDEBAR ---
-with st.sidebar:
-    st.markdown("""
-        <div class="sidebar-monitor">
-            <h3 style="color:#ffda00; margin:0; font-size:16px;">🛰️ CONTROL PANEL</h3>
-            <hr style="border-color:rgba(255,218,0,0.2); margin:10px 0;">
-            <p style="font-size:12px; margin:0;"><span class="status-dot"></span> SYSTEM_STATUS: ONLINE</p>
-            <p style="font-size:11px; opacity:0.7; margin:0;">CORE: NEURAL-v4.0<br>LOC: JOAL_SENEGAL</p>
-        </div>
-    """, unsafe_allow_html=True)
-    st.write("📊 **RESOURCE MONITOR**")
-    st.progress(35)
-    st.divider()
-    interface = st.radio("SELECT INTERFACE", ["🌐 STORE FRONT", "🔐 ERP ADMIN"])
-    if st.button("🔄 RE-SYNC CORE"):
-        with st.spinner("Sync..."):
-            time.sleep(1)
-            st.success("SYNC SUCCESS")
-
-# --- 5. LOGIQUE D'AFFICHAGE ---
-if interface == "🌐 STORE FRONT":
-    st.markdown('<h1 class="glitch-title">AVENIR SPORT</h1>', unsafe_allow_html=True)
-    cat_col, genre_col = st.columns([2, 1])
-    with cat_col:
-        selected_cat = st.selectbox("CHOISIR RAYON", list(sys.data.keys()))
-    with genre_col:
-        selected_genre = st.radio("GENRE", ["TOUS", "HOMME", "FEMME", "UNISEXE"], horizontal=True)
-
-    items = sys.data[selected_cat]
-    cols = st.columns(3)
-    idx = 0
-    for item in items:
-        if selected_genre == "TOUS" or item['genre'].upper() == selected_genre:
-            with cols[idx % 3]:
-                st.markdown(f"""
-                    <div class="product-box">
-                        <img src="{item['img']}" style="width:100%; height:250px; object-fit:cover;">
-                        <div style="padding:15px;">
-                            <span style="background:#ffda00; color:black; padding:2px 8px; border-radius:4px; font-weight:900; font-size:10px;">{item['genre']}</span>
-                            <h3 style="color:white; margin:10px 0 5px 0; font-size:18px;">{item['nom']}</h3>
-                            <div class="price-cyber">{item['prix']:,} F</div>
-                        </div>
-                    </div>
-                """, unsafe_allow_html=True)
-                st.link_button(f"COMMANDER AS-{item['id']}", f"https://wa.me/221XXXXXXXXX?text=Commande_AS-{item['id']}")
-                st.write("")
-                idx += 1
-else:
-    st.title("🛡️ NEURAL ERP SYSTEM")
-    st.write("### 🗃️ INVENTAIRE GLOBAL")
-    all_items = []
-    for cat in sys.data:
-        for item in sys.data[cat]:
-            all_items.append({"ID": item['id'], "Nom": item['nom'], "Prix": item['prix'], "Cat": cat})
-    st.dataframe(pd.DataFrame(all_items), use_container_width=True)
-
-# --- 6. FOOTER (BALISE FERMÉE CORRECTEMENT) ---
-st.markdown("""
-    <div style="background:#000; padding:60px 20px; margin-top:100px; border-top:1px solid #222; text-align:center;">
-        <h3 style="color:#ffda00; font-family:Orbitron;">AVENIR SPORT JOAL</h3>
-        <p style="color:#444; font-size:10px; letter-spacing:3px;">© 2026 - ENCRYPTED PERFORMANCE RETAIL</p>
-    </div>
-""", unsafe_allow_html=True)
+            "PRO ACCESSORIES": [
+                {"id": 301, "name": "Grip Socks Pro", "price": 4500, "genre": "Homme", "stock": "En Stock", "img": "https://images.unsplash.com/photo-1586350977771-b3b0abd50c82?w=600", "desc": "Anti-dérapantes."},
+                {"id": 302, "name": "Protège-Tibias Carbon", "price": 9500, "genre": "Enfants", "stock": "En Stock", "img": "https://images.unsplash.com/photo-1511886929837-399a8a11bdca?w=600", "desc": "Taille XS à L."},
+                {"id": 303, "name": "Gants Gardien Vapor", "price": 12000, "genre": "Homme", "stock": "En Stock", "img": "https://images.unsplash.com/photo-1595079676339-1534801ad6cf?w=400", "desc": "Latex contact pro."},
+                {"id": 304, "name": "Bandeau Cheveux Sport", "price": 2500, "genre": "Femme", "stock": "En Stock", "img": "https://images.unsplash.com/photo-1519751138087-5bf79df62d5b?w=400", "desc": "Maintien élastique."},
+                {"id": 305, "name": "Sac à dos Junior", "price": 15000, "genre": "Enfants", "stock": "En Stock", "img": "https://images.unsplash.com/photo-1544816155-12df9643f363?w=400", "desc": "Multi-compartiments."},
+                {"id": 306, "name": "Tape Médical", "price": 1500, "genre": "Homme", "stock": "En Stock", "img": "https://images.unsplash.com/photo-1552664688-cf412ec27db2?w=400", "desc": "Support articulaire."},
+                {"id": 307, "name": "Brass
