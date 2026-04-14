@@ -1,180 +1,141 @@
 import streamlit as st
 import pandas as pd
-from datetime import datetime
 
-# --- 1. CONFIGURATION SYSTÈME ---
+# --- 1. CONFIGURATION ÉLITE ---
 st.set_page_config(
-    page_title="AVENIR SPORT | ULTIMATE ERP v6.0",
-    page_icon="⚡",
-    layout="wide",
-    initial_sidebar_state="expanded"
+    page_title="AVENIR SPORT | GLOBAL LOGISTICS",
+    page_icon="👟",
+    layout="wide"
 )
 
-# --- 2. ENGINE CSS "BLACK & GOLD LUXURY" ---
+# --- 2. CSS CUSTOM : INTERFACE INDUSTRIELLE ---
 st.markdown("""
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=Inter:wght@300;400;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=Inter:wght@400;700&display=swap');
     
-    :root { --gold: #ffda00; --dark: #050505; --card: #111111; }
+    :root { --gold: #ffda00; --bg: #0a0a0a; --surface: #151515; }
     
-    .stApp { background-color: var(--dark); color: white; }
+    .stApp { background-color: var(--bg); color: #e0e0e0; }
     
-    /* Header */
-    .header-box {
-        background: linear-gradient(180deg, rgba(255,218,0,0.15) 0%, transparent 100%);
-        padding: 80px 20px; text-align: center; border-bottom: 3px solid var(--gold);
-        margin-bottom: 40px; border-radius: 0 0 60px 60px;
+    .main-header {
+        background: linear-gradient(135deg, #1a1a1a 0%, #000 100%);
+        padding: 60px; border-bottom: 4px solid var(--gold);
+        text-align: center; border-radius: 0 0 40px 40px; margin-bottom: 40px;
     }
-    .main-title { font-family: 'Orbitron'; font-size: 70px; color: var(--gold); letter-spacing: 15px; margin: 0; }
-    
-    /* Product Cards */
-    .product-card {
-        background: var(--card); border: 1px solid #222; border-radius: 25px;
-        overflow: hidden; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        margin-bottom: 25px; height: 100%;
-    }
-    .product-card:hover { border-color: var(--gold); transform: translateY(-12px); box-shadow: 0 15px 30px rgba(0,0,0,0.6); }
-    
-    .img-container { position: relative; width: 100%; height: 320px; }
-    .product-img { width: 100%; height: 100%; object-fit: cover; }
-    
-    .brand-tag {
-        position: absolute; top: 15px; right: 15px; background: var(--gold);
-        color: black; padding: 4px 12px; font-weight: 900; font-size: 10px; border-radius: 5px;
-    }
-    
-    .info-section { padding: 20px; }
-    .model-name { font-family: 'Inter'; font-weight: 700; font-size: 18px; margin: 0; color: white; }
-    .price-text { font-family: 'Orbitron'; color: var(--gold); font-size: 24px; font-weight: 900; margin: 10px 0; }
-    
-    /* Sizes & Badges */
-    .size-badge {
-        display: inline-block; background: #222; border: 1px solid #444;
-        color: #aaa; padding: 2px 8px; margin: 2px; border-radius: 4px; font-size: 11px;
-    }
-    .genre-badge { font-size: 10px; color: var(--gold); text-transform: uppercase; letter-spacing: 1px; }
 
-    /* Buttons */
-    .stButton>button {
-        width: 100%; background: transparent; border: 1px solid var(--gold);
-        color: var(--gold); font-family: 'Orbitron'; transition: 0.3s;
+    .brand-card {
+        background: var(--surface); border-radius: 20px;
+        border: 1px solid #222; transition: 0.3s; height: 100%;
     }
-    .stButton>button:hover { background: var(--gold); color: black; }
+    .brand-card:hover { border-color: var(--gold); transform: translateY(-5px); }
+    
+    .product-img { width: 100%; height: 300px; object-fit: cover; border-radius: 20px 20px 0 0; }
+    
+    .status-badge {
+        padding: 4px 10px; border-radius: 4px; font-size: 10px; font-weight: bold;
+        text-transform: uppercase; margin-bottom: 10px; display: inline-block;
+    }
+    
+    .price-tag { font-family: 'Orbitron'; color: var(--gold); font-size: 24px; font-weight: bold; }
+    
+    .size-box {
+        display: inline-block; width: 35px; height: 35px; line-height: 35px;
+        text-align: center; border: 1px solid #333; margin: 2px;
+        font-size: 11px; border-radius: 5px; background: #000;
+    }
 </style>
 """, unsafe_allow_html=True)
 
-# --- 3. DATABASE ARCHITECTURE (PLUS DE 120 ARTICLES) ---
-def get_database():
-    # Helper pour créer des listes massives
-    data = {
-        "NIKE TECH & ENSEMBLES": [
-            {"id": "NT01", "brand": "NIKE", "model": "Tech Fleece Full-Zip", "price": 45000, "genre": "Homme", "sizes": ["S", "M", "L", "XL"], "img": "https://images.unsplash.com/photo-1556821840-3a63f95609a7", "desc": "Gris Chiné / Noir"},
-            {"id": "NT02", "brand": "NIKE", "model": "Dri-FIT Academy Tracksuit", "price": 35000, "genre": "Enfants", "sizes": ["10A", "12A", "14A", "16A"], "img": "https://images.unsplash.com/photo-1606105961732-6332674f4ee6", "desc": "Ensemble entraînement Bleu Marine"},
-            {"id": "AD01", "brand": "ADIDAS", "model": "Tiro 23 Pro Ensemble", "price": 38000, "genre": "Homme", "sizes": ["M", "L", "XL"], "img": "https://images.unsplash.com/photo-1515444744559-7be63e1600de", "desc": "Coupe Slim - Noir/Or"},
-            {"id": "NK05", "brand": "NIKE", "model": "Sportswear Femme Ensemble", "price": 42000, "genre": "Femme", "sizes": ["XS", "S", "M"], "img": "https://images.unsplash.com/photo-1548330065-2946a3426d73", "desc": "Édition Pastel Pink"}
+# --- 3. ARCHITECTURE DE LA BASE DE DONNÉES ---
+# Cette structure permet de classer par Marque > Catégorie > Produit
+inventory = {
+    "NIKE": {
+        "JOGGING": [
+            {"id": "NK-JG-01", "name": "Nike Tech Fleece Full-Kit", "genre": "Homme", "sizes": ["S", "M", "L", "XL"], "price": 45000, "img": "https://images.unsplash.com/photo-1556821840-3a63f95609a7", "stock": "DISPONIBLE"},
+            {"id": "NK-JG-02", "name": "Pantalon Dri-FIT Academy", "genre": "Unisex", "sizes": ["M", "L", "XXL"], "price": 25000, "img": "https://images.unsplash.com/photo-1580487330481-3998d9f4bb43", "stock": "DISPONIBLE"}
         ],
-        "CHAUSSURES (AIR MAX, TN, JORDAN)": [
-            {"id": "CH01", "brand": "NIKE", "model": "Air Max Plus TN (Requin)", "price": 85000, "genre": "Homme", "sizes": ["40", "41", "42", "43", "44", "45"], "img": "https://images.unsplash.com/photo-1542291026-7eec264c27ff", "desc": "Coloris OG Voltage Purple"},
-            {"id": "CH02", "brand": "JORDAN", "model": "Jordan 4 Retro Military Blue", "price": 110000, "genre": "Unisex", "sizes": ["38", "39", "40", "41", "42"], "img": "https://images.unsplash.com/photo-1584735175315-9d5df23860e6", "desc": "Qualité Premium Cuir"},
-            {"id": "CH03", "brand": "NIKE", "model": "Dunk Low Panda", "price": 65000, "genre": "Unisex", "sizes": ["36", "37", "38", "40", "41", "42"], "img": "https://images.unsplash.com/photo-1600185365483-26d7a4cc7519", "desc": "Black & White Classic"}
+        "MAILLOTS": [
+            {"id": "NK-FB-01", "name": "Sénégal Home 24/25", "genre": "Unisex", "sizes": ["M", "L", "XL", "XXL"], "price": 15000, "img": "https://images.unsplash.com/photo-1599408162161-08249033327d", "stock": "FLOCAGE DISPO"},
+            {"id": "NK-BK-01", "name": "Maillot Basket USA Team", "genre": "Homme", "sizes": ["L", "XL", "XXL"], "price": 20000, "img": "https://images.unsplash.com/photo-1515523110800-9415d13b84a8", "stock": "DISPONIBLE"}
         ],
-        "JOGGINGS & BAS": [
-            {"id": "JG01", "brand": "NIKE", "model": "Jogging Cargo Sportswear", "price": 25000, "genre": "Homme", "sizes": ["S", "M", "L", "XL"], "img": "https://images.unsplash.com/photo-1580487330481-3998d9f4bb43", "desc": "Poches tactiques - Kaki"},
-            {"id": "JG02", "brand": "ADIDAS", "model": "Adicolor Classics 3-Stripes", "price": 22000, "genre": "Femme", "sizes": ["36", "38", "40"], "img": "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f", "desc": "Coupe ajustée - Noir"}
+        "CHAUSSURES": [
+            {"id": "NK-CH-01", "name": "Air Max Plus TN Requin", "genre": "Homme", "sizes": ["40", "41", "42", "43", "44"], "price": 85000, "img": "https://images.unsplash.com/photo-1542291026-7eec264c27ff", "stock": "PREMIUM"},
+            {"id": "NK-CH-02", "name": "Nike Pegasus Running", "genre": "Femme", "sizes": ["37", "38", "39"], "price": 45000, "img": "https://images.unsplash.com/photo-1539185441755-769473a23570", "stock": "RUNNING"}
+        ]
+    },
+    "ADIDAS": {
+        "JOGGING": [
+            {"id": "AD-JG-01", "name": "Ensemble Tiro 23 Pro", "genre": "Homme", "sizes": ["M", "L", "XL"], "price": 38000, "img": "https://images.unsplash.com/photo-1515444744559-7be63e1600de", "stock": "DISPONIBLE"}
         ],
-        "MAILLOTS & TOUT-TERRAIN": [
-            {"id": "ML01", "brand": "NIKE", "model": "Sénégal Home 2024 (Player)", "price": 18000, "genre": "Homme", "sizes": ["S", "M", "L", "XL", "XXL"], "img": "https://images.unsplash.com/photo-1599408162161-08249033327d", "desc": "Version Pro avec micro-perforations"},
-            {"id": "TT01", "brand": "NIKE", "model": "Pegasus Trail 4 GORE-TEX", "price": 75000, "genre": "Homme", "sizes": ["41", "42", "43", "44"], "img": "https://images.unsplash.com/photo-1539185441755-769473a23570", "desc": "Imperméable - Tout Terrain"}
+        "CHAUSSURES": [
+            {"id": "AD-CH-01", "name": "Adidas Predator Elite", "genre": "Homme", "sizes": ["41", "42", "43"], "price": 120000, "img": "https://images.unsplash.com/photo-1460353581641-37baddab0fa2", "stock": "CRAMPONS"}
+        ]
+    },
+    "MATÉRIEL & ACCESSOIRES": {
+        "PROTECTION": [
+            {"id": "ACC-01", "name": "Protège-tibias Carbon X", "genre": "Unisex", "sizes": ["S", "M", "L"], "price": 8500, "img": "https://images.unsplash.com/photo-1511886929837-399a8a11bdca", "stock": "STOCK LIMITÉ"}
+        ],
+        "TEXTILE": [
+            {"id": "ACC-02", "name": "Chaussettes Foot Elite", "genre": "Unisex", "sizes": ["39-42", "43-45"], "price": 4500, "img": "https://images.unsplash.com/photo-1586350977771-b3b0abd50c82", "stock": "DISPONIBLE"},
+            {"id": "ACC-03", "name": "Dossarts Entraînement (Lot)", "genre": "Unisex", "sizes": ["Unique"], "price": 15000, "img": "https://images.unsplash.com/photo-1526401485004-46910ecc8e51", "stock": "PRO"}
         ]
     }
-    
-    # Remplissage automatique pour simuler 120 articles si besoin
-    # (Tu peux remplacer par tes vraies données manuellement)
-    return data
+}
 
-db = get_database()
-
-# --- 4. NAVIGATION & FILTRES SIDEBAR ---
+# --- 4. FILTRES DYNAMIQUES ---
 with st.sidebar:
-    st.markdown("<h2 style='color:#ffda00; font-family:Orbitron;'>AVENIR CONTROL</h2>", unsafe_allow_html=True)
-    st.divider()
+    st.markdown("<h2 style='color:#ffda00; font-family:Orbitron;'>AVENIR PANEL</h2>", unsafe_allow_html=True)
+    sel_brand = st.selectbox("MARQUE", list(inventory.keys()))
     
-    # Recherche globale
-    search_query = st.text_input("🔍 Modèle ou Marque")
-    
-    # Filtres
-    f_genre = st.multiselect("Genre", ["Homme", "Femme", "Enfants", "Unisex"], default=["Homme", "Femme", "Enfants", "Unisex"])
-    f_brand = st.multiselect("Marques", ["NIKE", "ADIDAS", "JORDAN", "PUMA"], default=["NIKE", "ADIDAS", "JORDAN", "PUMA"])
+    # Générer dynamiquement les sous-catégories selon la marque
+    categories = list(inventory[sel_brand].keys())
+    sel_cat = st.radio("CATÉGORIES", categories)
     
     st.divider()
-    interface_mode = st.radio("Affichage", ["Catalogue Client", "Gestion Stock (ERP)"])
+    sel_genre = st.multiselect("GENRE", ["Homme", "Femme", "Unisex", "Enfant"], default=["Homme", "Femme", "Unisex"])
     
-    st.divider()
-    st.write("📍 Dakar - Joal Fadiouth")
+# --- 5. AFFICHAGE DES PRODUITS ---
+st.markdown(f"""
+    <div class="main-header">
+        <h1 style="font-family:'Orbitron'; color:#ffda00; font-size:50px; margin:0;">AVENIR SPORT</h1>
+        <p style="letter-spacing:10px;">SYSTEM : {sel_brand} // {sel_cat}</p>
+    </div>
+""", unsafe_allow_html=True)
 
-# --- 5. LOGIQUE D'AFFICHAGE ---
-if interface_mode == "Catalogue Client":
-    st.markdown("""<div class="header-box"><h1 class="main-title">AVENIR SPORT</h1><p style="letter-spacing:8px; color:#888;">THE ELITE PERFORMANCE STORE</p></div>""", unsafe_allow_html=True)
-    
-    # Tabs pour les catégories
-    tabs = st.tabs(list(db.keys()))
-    
-    for i, category in enumerate(db.keys()):
-        with tabs[i]:
-            items = db[category]
-            
-            # Application des filtres
-            filtered_items = [
-                item for item in items 
-                if (search_query.lower() in item['model'].lower() or search_query.lower() in item['brand'].lower())
-                and item['genre'] in f_genre
-                and item['brand'] in f_brand
-            ]
-            
-            if not filtered_items:
-                st.warning("Aucun article ne correspond à votre recherche.")
-            else:
-                cols = st.columns(3)
-                for idx, item in enumerate(filtered_items):
-                    with cols[idx % 3]:
-                        # Construction des tailles en HTML
-                        size_html = "".join([f'<span class="size-badge">{s}</span>' for s in item['sizes']])
-                        
-                        st.markdown(f"""
-                            <div class="product-card">
-                                <div class="img-container">
-                                    <span class="brand-tag">{item['brand']}</span>
-                                    <img src="{item['img']}" class="product-img">
-                                </div>
-                                <div class="info-section">
-                                    <span class="genre-badge">{item['genre']}</span>
-                                    <h3 class="model-name">{item['model']}</h3>
-                                    <p style="color:#666; font-size:13px; margin:5px 0;">{item['desc']}</p>
-                                    <div style="margin:10px 0;">{size_html}</div>
-                                    <div class="price-text">{item['price']:,} FCFA</div>
-                                    <p style="font-size:10px; color:#444;">ID: {item['id']}</p>
-                                </div>
-                            </div>
-                        """, unsafe_allow_html=True)
-                        st.link_button("COMMANDER WHATSAPP", f"https://wa.me/221770000000?text=Je+commande+le+modèle+{item['model']}+en+taille+...")
-                        st.write("")
+items = inventory[sel_brand][sel_cat]
+# Filtrage par genre
+filtered_items = [i for i in items if i['genre'] in sel_genre]
 
-else: # MODE ERP
-    st.title("🛡️ Administration du Stock")
-    all_data = []
-    for cat, items in db.items():
-        for i in items:
-            all_data.append({
-                "ID": i['id'],
-                "Marque": i['brand'],
-                "Modèle": i['model'],
-                "Prix": i['price'],
-                "Genre": i['genre'],
-                "Tailles": ", ".join(i['sizes'])
-            })
-    df = pd.DataFrame(all_data)
-    st.table(df)
-    st.metric("Total Articles Référencés", len(df))
+if not filtered_items:
+    st.warning("Aucun produit ne correspond à vos filtres.")
+else:
+    cols = st.columns(3)
+    for idx, item in enumerate(filtered_items):
+        with cols[idx % 3]:
+            st.markdown(f"""
+                <div class="brand-card">
+                    <img src="{item['img']}" class="product-img">
+                    <div style="padding:20px;">
+                        <span class="status-badge" style="background:#ffda00; color:black;">{item['stock']}</span>
+                        <p style="color:#666; font-size:11px; margin:0;">REF: {item['id']}</p>
+                        <h3 style="margin:5px 0; font-family:'Inter';">{item['name']}</h3>
+                        <p style="color:#888; font-size:12px;">Cible: {item['genre']}</p>
+                        <div style="margin:15px 0;">
+                            <small>TAILLES DISPONIBLES :</small><br>
+                            {" ".join([f'<span class="size-box">{s}</span>' for s in item['sizes']])}
+                        </div>
+                        <div class="price-tag">{item['price']:,} FCFA</div>
+                    </div>
+                </div>
+            """, unsafe_allow_html=True)
+            st.link_button("VÉRIFIER DISPONIBILITÉ", f"https://wa.me/221XXXXXXXXX?text=Bonjour, l'article {item['name']} (REF:{item['id']}) est-il disponible?")
+            st.write("")
 
-# --- 6. FOOTER ---
-st.markdown("<div style='text-align:center; padding:100px; color:#333; font-size:12px;'>© 2026 AVENIR SPORT SYSTEM - PROPRIÉTÉ PRIVÉE</div>", unsafe_allow_html=True)
+# --- 6. RÉSUMÉ GESTION ---
+with st.expander("📝 RÉSUMÉ DES STOCKS POUR INVENTAIRE"):
+    summary_data = []
+    for brand, cats in inventory.items():
+        for cat, prods in cats.items():
+            for p in prods:
+                summary_data.append({"Marque": brand, "Catégorie": cat, "Nom": p['name'], "Prix": p['price'], "Genre": p['genre']})
+    st.table(pd.DataFrame(summary_data))
