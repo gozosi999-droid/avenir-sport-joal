@@ -72,7 +72,7 @@ db = [
     Product("NK-001", "NIKE", "JOGGING", "Tech Fleece Reborn", "Homme", ["S", "M", "L", "XL"], 45000, "https://i.ibb.co/gLjFBt4G/image.jpg"),
     Product("NK-002", "NIKE", "CRAMPONS", "Mercurial Superfly 9", "Unisex", ["40", "41", "42", "43", "44"], 40000, "https://i.ibb.co/RkYyxdkc/image.jpg", "ELITE"),
     Product("NK-SN-24", "NIKE", "MAILLOT FOOT", "Sénégal Home 24/25", "Unisex", ["M", "L", "XL", "XXL"], 14000, "https://i.ibb.co/bMShDsqb/image.jpg"),
-    
+    Product("NK-009", "NIKE", "CRAMPONS", "Phantom GX Bleu Clair", "Unisex", ["40", "41", "42", "43", "44"], 135000, "https://i.ibb.co/spn4z76r/image.jpg", "ELITE"),
     # --- ADIDAS SECTION ---
    Product("NK-003", "ADIDAS", "lIGHT", "ULTRABOOST", "Unisex", ["M", "L", "XL", "XXL"], 25000, "https://i.ibb.co/Tqh9ZW1j/image.jpg"),
     Product("AD-002", "ADIDAS", "JOGGING", "Tiro 23 Competition", "Homme", ["M", "L", "XL"], 30000,"https://i.ibb.co/Pszx1bRF/image.jpg"),
