@@ -137,7 +137,7 @@ for idx, p in enumerate(filtered_db):
                     <h3 class="model-title">{p.model}</h3>
                     <p style="font-size:12px; color:#888;">Réf: {p.id} | Genre: {p.genre}</p>
                     <div class="size-grid">{sizes_html}</div>
-                    <div class="price-text">{p.price Tremendous:,} F</div>
+                    <div class="price-text">{p.price:,} F</div>
                 </div>
             </div>
         """, unsafe_allow_html=True)
