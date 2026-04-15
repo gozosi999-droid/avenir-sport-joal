@@ -84,7 +84,8 @@ db = [
     Product("PM-001", "PUMA", "CRAMPONS", "Puma Future Ultimate", "Unisex", ["40", "41", "42", "43", "44"], 25000, "https://i.ibb.co/r2jCQrVT/image.jpg", "ELITE"),
   Product("NB-001", "NEW BALANCE", "CRAMPONS", "New Balance Furon V7+", "Unisex", ["40", "41", "42", "43", "44"], 30000, "https://i.ibb.co/KzDvBsqd/image.jpg", "ELITE"),
     # --- MATÉRIEL & ACCESSOIRES ---
-    Product("ACC-01", "NIKE", "ACCESSOIRES", "Protège-Tibias Carbon", "Unisex", ["S", "M", "L"], 10000, "https://i.ibb.co/nsjnLfxv/image.jpg"),
+    Product("ACC-01", "NIKE", "ACCESSOIRES", "Protège-Tibias Carbon", "Unisex", ["S", "M", "L"], 150
+            0, "https://i.ibb.co/nsjnLfxv/image.jpg"),
     Product("ACC-02", "PUMA", "ACCESSOIRES", "Lot 10 Dossards Pro", "Unisex", ["Taille Unique"], 25000, "https://i.ibb.co/KpQ1Nmr5/image.jpg"),
     Product("ACC-03", "NIKE", "ACCESSOIRES", "Chaussettes Foot (Pack de 3)", "Unisex", ["38-42", "43-46"], 7500, "https://i.ibb.co/LDYs9CSt/image.jpg")
 ]
